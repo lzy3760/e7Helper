@@ -1,7 +1,7 @@
 local Util = {}
 
--- 获取当前时间
-function Util.GetNowTime()
+-- 获取运行时间
+function Util.GetPlayTime()
     return tickCount() / 1000
 end
 

@@ -1,4 +1,3 @@
-local class = require("middleclass")
 ---@class Timer
 local Timer = class("Timer")
 local xpcall = xpcall

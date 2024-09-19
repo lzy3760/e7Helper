@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <lcprojit projname="Project" appname="main.lua" is_acc_mode="0" pkgname="E7Helper">
     <lua entry="Project.lua">
-        <file name="Time\TimeMgr.lua"/>
-        <file name="Time\Timer.lua"/>
         <file name="Task\TaskMgr.lua"/>
         <file name="Task\BaseTask.lua"/>
+        <file name="Task\TaskTest.lua"/>
+        <file name="Time\TimeMgr.lua"/>
+        <file name="Time\Timer.lua"/>
         <file name="Util.lua"/>
         <file name="middleclass.lua"/>
     </lua>

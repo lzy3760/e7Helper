@@ -1,4 +1,4 @@
-local Timer = require("Project.脚本.Time.Timer")
+local Timer = require("Time.Timer")
 
 local TimeMgr = {}
 
@@ -9,12 +9,14 @@ end
 function TimeMgr:Enter()
 end
 
+--目前计时器0.1秒执行一次，但问题应该不大
+--不是什么精细的功能
 function TimeMgr:Update()
     for k, v in pairs(self.timers) do
         if v.stop then
             self.timers[k] = nil
         else
-            v:UpdateTimer(Util.GetNowTime())
+            v:UpdateTimer(Util.GetPlayTime())
             if v:TryDelete() then
                 self.timers[k] = nil
             end
@@ -36,7 +38,7 @@ function TimeMgr:DelayTime(time, func, caller)
     return timer
 end
 
-function TimerMgr:LoopTime(interval, func, loopCount)
+function TimeMgr:LoopTime(interval, func, loopCount)
     if not interval or interval == 0 then
         return
     end
@@ -45,7 +47,7 @@ function TimerMgr:LoopTime(interval, func, loopCount)
         return
     end
 
-    local timer = Timer:new(Timer.TimerType.LoopTime, interval, func, Util.GetNowTime(), loopCount)
+    local timer = Timer:new(Timer.TimerType.LoopTime, interval, func, Util.GetPlayTime(), loopCount)
     table.insert(self.timers, timer)
     return timer
 end

@@ -1,6 +1,7 @@
-require("Project.脚本.Util")
-require("Project.脚本.Task.TaskMgr")
-require("Project.脚本.Time.TimeMgr")
+_G.class = require("middleclass")
+require("Util")
+require("Time.TimeMgr")
+require("Task.TaskMgr")
 
 local Project = {}
 local self = Project
@@ -40,6 +41,15 @@ end
 
 self.Init()
 self.Enter()
+
+--简单计时器
+local internal = 0.2
+local time = Util.GetPlayTime() + internal
+
+--为了节省性能,0.1s走一次
 while true do
-    self.Update()
+    if Util.GetPlayTime() >= time then
+        self.Update()
+        time = time + internal
+    end
 end
