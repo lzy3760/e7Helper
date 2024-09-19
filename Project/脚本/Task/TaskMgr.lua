@@ -2,7 +2,6 @@ local remove = table.remove
 local insert = table.insert
 local BaseTask = require("Task.BaseTask")
 
----@class TaskMgr 负责所有Task的执行
 local TaskMgr = {}
 
 function TaskMgr:Init()

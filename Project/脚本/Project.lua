@@ -1,11 +1,20 @@
 _G.class = require("middleclass")
+require("EnumConst")
 require("Util")
 require("Time.TimeMgr")
 require("Task.TaskMgr")
+require("UI.UIMgr")
+
+setScreenScale(1,1280,720,0)
 
 local Project = {}
 local self = Project
-self.mgrs = {_G.TaskMgr, _G.TimeMgr}
+self.mgrs = 
+{
+    _G.TaskMgr, 
+    _G.TimeMgr,
+    _G.UIMgr
+}
 
 self.Init = function()
     for _, mgr in pairs(self.mgrs) do
@@ -42,11 +51,11 @@ end
 self.Init()
 self.Enter()
 
---简单计时器
+--锟津单硷拷时锟斤拷
 local internal = 0.2
 local time = Util.GetPlayTime() + internal
 
---为了节省性能,0.1s走一次
+--为锟剿斤拷省锟斤拷锟斤拷,0.1s锟斤拷一锟斤拷
 while true do
     if Util.GetPlayTime() >= time then
         self.Update()

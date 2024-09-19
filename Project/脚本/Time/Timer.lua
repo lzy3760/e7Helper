@@ -59,7 +59,6 @@ function Timer:Stop()
     self.stop = true
 end
 
--- region NewTimer 延迟几秒走一次
 function Timer:NewTime(...)
     local param = {...}
     self.endTime = param[1]
@@ -78,9 +77,6 @@ function Timer:DeleteTime()
     return self.endTime <= 0
 end
 
--- endregion
-
--- region LoopTimer 每多少秒走一次，一共走几次
 function Timer:LoopTimeNew(...)
     local param = {...}
     self.interval = param[1]
@@ -121,7 +117,7 @@ end
 
 -- endregion
 
--- region FrameTimer 延迟多少帧走一次
+-- region FrameTimer 锟接迟讹拷锟斤拷帧锟斤拷一锟斤拷
 
 -- function Timer:NewFrame(...)
 --     local param = {...}
@@ -143,7 +139,7 @@ end
 
 -- endregion
 
--- region LoopFrameTimer 每帧走一次
+-- region LoopFrameTimer 每帧锟斤拷一锟斤拷
 
 -- function Timer:NewLoopFrame(...)
 --     local param = {...}

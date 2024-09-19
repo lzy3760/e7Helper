@@ -9,8 +9,6 @@ end
 function TimeMgr:Enter()
 end
 
---目前计时器0.1秒执行一次，但问题应该不大
---不是什么精细的功能
 function TimeMgr:Update()
     for k, v in pairs(self.timers) do
         if v.stop then
