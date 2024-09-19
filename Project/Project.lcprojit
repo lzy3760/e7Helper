@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<lcprojit projname="Project" is_acc_mode="0" appname="main.lua" pkgname="E7Helper">
+    <lua entry="Project.lua"/>
+    <ui entry="Project.ui"/>
+    <rc entry="Project.rc"/>
+    <luaej/>
+</lcprojit>
