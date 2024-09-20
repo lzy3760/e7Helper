@@ -3,7 +3,7 @@ local BaseTask = require("Task.BaseTask")
 local HomeTask = class("HomeTask",BaseTask)
 
 function HomeTask:initialize()
-    BaseTask.initialize(self,TaskType.HomeTask)
+    BaseTask.initialize(self,"Ö÷½çÃæ")
 end
 
 function HomeTask:Enter()
