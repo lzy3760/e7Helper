@@ -11,7 +11,7 @@ end
 
 function UIMgr:Enter()
     log("启动UIMgr")
-    self:OpenPanel("MainPanel")
+    --self:OpenPanel("MainPanel")
 end
 
 function UIMgr:OpenPanel(panelName)
@@ -23,6 +23,7 @@ function UIMgr:OpenPanel(panelName)
         self.curPanel:Release() 
     end
 
+	log("打开界面->>>>"..panelName)
     local panel = PanelType[panelName]
     self.curPanel = panel
     self.curPanel:Init()
