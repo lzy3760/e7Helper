@@ -6,15 +6,26 @@ local PanelType =
 }
 
 function UIMgr:Init()
+    self.curPanel = nil
 end
 
 function UIMgr:Enter()
-    print("Æô¶¯UIMgr")
-    MainPanel:Init()
+    log("Æô¶¯UIMgr")
+    self:OpenPanel("MainPanel")
 end
 
-function UIMgr:OpenPanel(panelType)
+function UIMgr:OpenPanel(panelName)
+    if not PanelType[panelName] then
+        return
+    end
 
+    if self.curPanel then
+        self.curPanel:Release() 
+    end
+
+    local panel = PanelType[panelName]
+    self.curPanel = panel
+    self.curPanel:Init()
 end
 
 _G.UIMgr = UIMgr
