@@ -51,7 +51,7 @@ end
 self.Init()
 self.Enter()
 
---update的单位间隔
+--每次轮询的时间间隔
 local internal = 0.2
 local time = Util.GetPlayTime() + internal
 
