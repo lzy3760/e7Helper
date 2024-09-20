@@ -12,8 +12,8 @@ local self = Project
 self.mgrs = 
 {
     _G.TaskMgr, 
-    _G.TimeMgr,
-    _G.UIMgr
+    --_G.TimeMgr,
+    --_G.UIMgr
 }
 
 self.Init = function()
@@ -51,14 +51,15 @@ end
 self.Init()
 self.Enter()
 
---ï¿½òµ¥¼ï¿½Ê±ï¿½ï¿½
+--updateµÄµ¥Î»¼ä¸ô
 local internal = 0.2
 local time = Util.GetPlayTime() + internal
 
---Îªï¿½Ë½ï¿½Ê¡ï¿½ï¿½ï¿½ï¿½,0.1sï¿½ï¿½Ò»ï¿½ï¿½
 while true do
-    if Util.GetPlayTime() >= time then
-        self.Update()
-        time = time + internal
-    end
+    -- if Util.GetPlayTime() >= time then
+    --     self.Update()
+    --     time = time + internal
+    -- end
+    self.Update()
+    Util.WaitTime(internal)
 end
