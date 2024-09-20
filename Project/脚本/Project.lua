@@ -11,7 +11,7 @@ local Project = {}
 local self = Project
 self.mgrs = 
 {
-    _G.TaskMgr, 
+    _G.TaskMgr,
     --_G.TimeMgr,
     --_G.UIMgr
 }
@@ -51,15 +51,10 @@ end
 self.Init()
 self.Enter()
 
---测试每次轮询的时间间隔，但因为受到sleep的影响，不是
+--每次轮询的时间间隔，因为sleep的存在，只能说是轮询了
 local internal = 0.2
-local time = Util.GetPlayTime() + internal
 
 while true do
-    -- if Util.GetPlayTime() >= time then
-    --     self.Update()
-    --     time = time + internal
-    -- end
     self.Update()
     Util.WaitTime(internal)
 end

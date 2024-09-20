@@ -1,19 +1,33 @@
--- Main function panel
+-- 主要面板
 local MainPanel = {}
-
-local Buttons = {"Shua Shang Dian", "JJC", "Qi Shi Tuan", "Shua Qi E", "Shua Ye Zi", "Huo Huo Huo", "Shui Shui Shui"}
+local PanelName = "功能面板"
+local Funcs = {
+    RandomStore = "刷书签",
+    EveryDayStore = "每日商城购买",
+    ShuaQiE = "刷企鹅",
+    TaoFa = "讨伐开启",
+    MuLongMiGong = "一票木龙",
+    MiGong = "迷宫",
+    Test1 = "测试1",
+    Test2 = "测试2"
+}
 
 function MainPanel:Init()
-    ui.newLayout("MainPanel", 700, 400)
-    ui.addButton("MainPanel", "btn", "hello1")
-    ui.addButton("MainPanel", "btn1", "hello2")
-    ui.newRow("MainPanel", "row1")
-    ui.addButton("layout1", "btn2", "hello3")
-    ui.show("MainPanel")
+    ui.newLayout(PanelName, 700, 400)
+    ui.addButton(PanelName, Funcs.RandomStore, "刷商店")
+    ui.addButton(PanelName, Funcs.EveryDayStore, "每日商城")
+    ui.addButton(PanelName, Funcs.ShuaQiE, "刷企鹅")
+    ui.addButton(PanelName, Funcs.TaoFa, "讨伐")
+    ui.newRow(PanelName, "Row1")
+    ui.addButton(PanelName, Funcs.MuLongMiGong, "木龙迷宫")
+    ui.addButton(PanelName, Funcs.MiGong, "迷宫")
+    ui.addButton(PanelName, Funcs.Test1, "Test1")
+    ui.addButton(PanelName, Funcs.Test2, "Test2")
+    ui.show(PanelName)
 end
 
 function MainPanel:Release()
-    ui.dismiss("MainPanel")
+    ui.dismiss(PanelName)
 end
 
 return MainPanel

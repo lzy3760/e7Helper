@@ -1,5 +1,9 @@
 local UIMgr = {}
-local MainPanel = require("UI.MainPanel")
+
+local PanelType = 
+{
+    ["MainPanel"] = require("UI.MainPanel"),
+}
 
 function UIMgr:Init()
 end
@@ -7,6 +11,10 @@ end
 function UIMgr:Enter()
     print("Æô¶¯UIMgr")
     MainPanel:Init()
+end
+
+function UIMgr:OpenPanel(panelType)
+
 end
 
 _G.UIMgr = UIMgr
