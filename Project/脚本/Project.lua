@@ -51,7 +51,7 @@ end
 self.Init()
 self.Enter()
 
---每次轮询的时间间隔
+--测试每次轮询的时间间隔，但因为受到sleep的影响，不是
 local internal = 0.2
 local time = Util.GetPlayTime() + internal
 
