@@ -51,8 +51,13 @@ self.Test = function()
     -- print("等待完成,开始滑动")
     -- Util.Swipe(586, 423, 570, 273, 0.5)
     -- Util.Swipe({570, 273}, {586, 423}, 0.5)
-
     --1086,682,1172,707
+
+    --{"55|670|C9C9C9,145|637|F9F9F9,228|636|F8F8F8,333|631|FFFFFF,408|646|DEDEDE",0.9}
+    -- local suc = Util.cmpColorEx("55|670|C9C9C9,145|637|F9F9F9,228|636|F8F8F8,333|631|FFFFFF,408|646|DEDEDE")
+    -- if suc then
+    --     log("这是主界面") 
+    -- end
 
     -- local handle = createOcr()
     -- local text = ocrTextEx(handle, 1086, 682, 1172, 707, 8, 150, 255)
@@ -60,12 +65,6 @@ self.Test = function()
     --     print("ocr text:" .. text)
     -- end
     -- releaseOcr(handle)
-
-    --{"55|670|C9C9C9,145|637|F9F9F9,228|636|F8F8F8,333|631|FFFFFF,408|646|DEDEDE",0.9}
-    local suc = Util.cmpColorEx("55|670|C9C9C9,145|637|F9F9F9,228|636|F8F8F8,333|631|FFFFFF,408|646|DEDEDE")
-    if suc then
-        log("这是主界面") 
-    end
 end
 
 self.Init()

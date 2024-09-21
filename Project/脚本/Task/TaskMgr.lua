@@ -8,13 +8,15 @@ local TaskType = {
     -- 网络错误
     ["网络错误"] = require("Task.InternetErrorTask"),
 
+    -- ["派遣界面"] = require("")
+
     -- 通用Task
     -- 返回Home界面
     ["主界面"] = require("Task.HomeTask"),
 
     -- 功能Task
-    -- 刷书签
-    ["刷书签"] = require("Task.RandomStoreTask")
+    ["刷书签"] = require("Task.RandomStoreTask"),
+    ["讨伐"] = require("Task.HuntTask")
 }
 
 local TaskMgr = {}

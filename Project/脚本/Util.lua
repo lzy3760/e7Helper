@@ -38,21 +38,21 @@ function Util.WaitTime(seconds)
 end
 
 -- 拖动
--- function Util.Swipe(from, to, waitTime)
---     --waitTime = waitTime * 1000 or 0
---     touchDown(1, from[1], from[2])
---     Util.WaitTime(0.05)
---     touchMoveEx(1, to[1], to[2], 500)
---     --touchMoveEx(1, to[1], to[2], 50)
---     touchUp(1)
---     Util.WaitTime(0.8)
--- end
-
-function Util.Swipe(x1, y1, x2, y2, time)
-    local result = swipe(x1, y1, x2, y2, time * 1000)
-    local msg = result and "成功" or "失败"
-    print("滑动结果->>>" .. msg)
+function Util.Swipe(from, to)
+    -- waitTime = waitTime * 1000 or 0
+    touchDown(1, from[1], from[2])
+    Util.WaitTime(0.05)
+    touchMoveEx(1, to[1], to[2], 500)
+    -- touchMoveEx(1, to[1], to[2], 50)
+    touchUp(1)
+    Util.WaitTime(0.8)
 end
+
+-- function Util.Swipe(x1, y1, x2, y2, time)
+--     local result = swipe(x1, y1, x2, y2, time * 1000)
+--     local msg = result and "成功" or "失败"
+--     print("滑动结果->>>" .. msg)
+-- end
 
 -- function Util.Swipe(x1, y1, x2, y2, time)
 --     local gesture = Gesture:new()
@@ -65,10 +65,15 @@ end
 -- end
 
 -- 多点比色
-function Util.cmpColorEx(msg, sim)
+function Util.CompareColor(msg, sim)
     sim = sim or 0.9
     local result = cmpColorEx(msg, sim)
     return result > 0
+end
+
+-- 点击
+function Util.Click(x, y)
+    tap(x, y)
 end
 
 -- 找图
@@ -135,4 +140,5 @@ function logError(msg)
     -- --console.println(msg, LogType.ERROR)
     -- print("<color=#FF0008>" .. tostring(msg) .. "</color>")
     log(msg)
+    exitScript()
 end
