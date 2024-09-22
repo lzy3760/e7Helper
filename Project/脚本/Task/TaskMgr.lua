@@ -27,6 +27,10 @@ function TaskMgr:Init()
     self.pause = true
 end
 
+function TaskMgr:Enter()
+    -- self:Start("讨伐")
+end
+
 function TaskMgr:Update()
     if self.pause then
         return
@@ -42,16 +46,20 @@ function TaskMgr:Update()
     if self.curTask.isFinish then
         self.curTask:Release()
         remove(self.tasks, 1)
-        self.curTask = self.tasks[1]
 
-        if self.curTask then
-            -- 如果任务是中途暂停的,就继续，否则重新开始
-            if self.curTask:IsPause() then
-                log("继续Task" .. self.curTask.taskName)
-                self.curTask:Resume()
-            else
-                log("开始Task" .. self.curTask.taskName)
-                self.curTask:Enter()
+        if #self.tasks == 0 then
+            logError("程序退出")
+        else
+            self.curTask = self.tasks[1]
+            if self.curTask then
+                -- 如果任务是中途暂停的,就继续，否则重新开始
+                if self.curTask:IsPause() then
+                    log("继续Task" .. self.curTask.taskType)
+                    self.curTask:Resume()
+                else
+                    log("开始Task" .. self.curTask.taskType)
+                    self.curTask:Enter()
+                end
             end
         end
     end

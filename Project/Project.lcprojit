@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <lcprojit projname="Project" appname="main.lua" is_acc_mode="0" pkgname="E7Helper">
     <lua entry="Project.lua">
+        <file name="Setting\SettingMgr.lua"/>
+        <file name="Setting\RandomStoreSet.lua"/>
+        <file name="Setting\HuntSet.lua"/>
+        <file name="UI\UIMgr.lua"/>
+        <file name="UI\MainPanel.lua"/>
+        <file name="UI\HuntSettingPanel.lua"/>
+        <file name="Time\TimeMgr.lua"/>
+        <file name="Time\Timer.lua"/>
         <file name="Task\TaskMgr.lua"/>
         <file name="Task\BaseTask.lua"/>
         <file name="Task\InternetErrorTask.lua"/>
         <file name="Task\HomeTask.lua"/>
         <file name="Task\RandomStoreTask.lua"/>
         <file name="Task\HuntTask.lua"/>
-        <file name="Time\TimeMgr.lua"/>
-        <file name="Time\Timer.lua"/>
-        <file name="UI\UIMgr.lua"/>
-        <file name="UI\MainPanel.lua"/>
-        <file name="Setting\SettingMgr.lua"/>
-        <file name="Setting\RandomStoreSet.lua"/>
         <file name="Util.lua"/>
         <file name="middleclass.lua"/>
         <file name="EnumConst.lua"/>

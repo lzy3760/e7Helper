@@ -2,36 +2,109 @@
 local MainPanel = {}
 local PanelName = "功能面板"
 local Funcs = {
-    RandomStore = "刷书签",
-    EveryDayStore = "每日商城购买",
-    ShuaQiE = "刷企鹅",
-    TaoFa = "讨伐开启",
-    MuLongMiGong = "一票木龙",
-    MiGong = "迷宫",
-    Test1 = "测试1",
-    Test2 = "测试2"
+    ["讨伐"] = "Hunt"
 }
 
+local Settings = {
+    ["讨伐设置"] = "HuntSetting"
+}
+
+local Panel
+
+function MainPanelHunt()
+    Panel:AddTask("讨伐")
+end
+
+function MainPanelHuntSetting()
+    UIMgr:OpenPanel("HuntSettingPanel")
+end
+
+function MainPanelStart()
+    UIMgr:ClosePanel()
+    TaskMgr:Start(Panel:GetTasks())
+end
+
 function MainPanel:Init()
-    ui.newLayout(PanelName, 700, 400)
-    ui.addSpace(PanelName,3)
-    ui.addButton(PanelName, Funcs.RandomStore, "刷商店")
+    Panel = self
+    self:InitUI()
+
+    -- 所有Task列表
+    self.allTask = {}
+end
+
+function MainPanel:AddTask(funcName)
+    table.insert(self.allTask, funcName)
+    self:RefreshTaskUI()
+end
+
+function MainPanel:GetTasks()
+    local taskStr = ""
+    for _, task in pairs(self.allTask) do
+        if taskStr == "" then
+            taskStr = task
+        else
+            taskStr = taskStr .. "|" .. task
+        end
+    end
+    return taskStr
+end
+
+function MainPanel:RefreshTaskUI()
+    ui.setEditText("taskEditText", self:GetTasks())
+end
+
+function MainPanel:InitUI()
+    local newRow = function()
+        ui.addRow(PanelName)
+    end
+
+    local addFunc = function(name, funcName)
+        ui.addSpace(PanelName)
+        ui.addButton(PanelName, name, name)
+        ui.setOnClick(name, "MainPanel" .. funcName .. "()")
+    end
+
+    local addArea = function(funcs, rowId)
+        local rowIndex = 0
+        for name, funcName in pairs(funcs) do
+            rowIndex = rowIndex + 1
+            addFunc(name, funcName)
+
+            if rowIndex >= 4 then
+                newRow()
+                rowIndex = 0
+            end
+        end
+    end
+
+    ui.newLayout(PanelName, 700, 500)
+
+    -- Task列表
     ui.addSpace(PanelName)
-    ui.addButton(PanelName, Funcs.EveryDayStore, "每日商城")
+    ui.addTextView(PanelName, "text", "任务列表")
     ui.addSpace(PanelName)
-    ui.addButton(PanelName, Funcs.ShuaQiE, "刷企鹅")
+    ui.addEditText(PanelName, "taskEditText", "")
+
+    -- func区域
+    newRow()
+    addArea(Funcs, 1)
+
+    -- line
+    newRow()
+    ui.addLine(PanelName, "line1", -1, 3)
+    newRow()
+
+    -- setting区域
+    addArea(Settings, 2)
+
+    -- last
+    newRow()
+    ui.addLine(PanelName, "line2", -1, 3)
+    newRow()
     ui.addSpace(PanelName)
-    ui.addButton(PanelName, Funcs.TaoFa, "讨伐")
-    ui.newRow(PanelName, "Row1")
-    ui.addSpace(PanelName, 3)
-    ui.addButton(PanelName, Funcs.MuLongMiGong, "木龙迷宫")
-    ui.addSpace(PanelName)
-    ui.addButton(PanelName, Funcs.MiGong, "迷宫")
-    ui.addSpace(PanelName)
-    ui.addButton(PanelName, Funcs.Test1, "Test1")
-    ui.addSpace(PanelName)
-    ui.addButton(PanelName, Funcs.Test2, "Test2")
-    ui.addSpace(PanelName)
+    ui.addButton(PanelName, "Start", "开始")
+    ui.setOnClick("Start", "MainPanelStart()")
+
     ui.show(PanelName)
 end
 

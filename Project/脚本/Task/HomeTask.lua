@@ -7,7 +7,7 @@ function HomeTask:initialize()
 end
 
 function HomeTask:Enter()
-
+    self:Completed()
 end
 
 function HomeTask:Update()
