@@ -125,6 +125,34 @@ function Util.findPicAndClick(x1, y1, x2, y2, picName, dir)
     end
 end
 
+-- 利用反射调用一个方法
+function Util.Invoke(table, funcName, ...)
+    local env = {
+        self = table,
+        arg = {...}
+    }
+
+    setmetatable(env, {
+        __index = _G
+    })
+
+    local str
+    if #env.arg == 0 then
+        str = "return self:" .. funcName .. "()"
+    else
+        str = "return self:" .. funcName .. "(table.unpack(arg))"
+    end
+
+    local chunk, err = load(str, funcName, "bt", env)
+
+    if not chunk then
+        error("Failed to load function: " .. err)
+    end
+
+    return chunk()
+end
+
+
 ---@class Util
 _G.Util = Util
 

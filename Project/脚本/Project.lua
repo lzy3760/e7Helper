@@ -1,6 +1,7 @@
 _G.class = require("middleclass")
 require("EnumConst")
 require("Util")
+require("GameUtil")
 require("Time.TimeMgr")
 require("Task.TaskMgr")
 require("Setting.SettingMgr")
