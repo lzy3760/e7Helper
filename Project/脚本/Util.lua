@@ -27,48 +27,15 @@ function Util.GetPlayTime()
     return tickCount() / 1000
 end
 
--- 网络是否有效
-function Util.GetInternetValid()
-    -- todo
-    return true
-end
-
--- 是否体力不足
-function Util.IsEnergyEnough()
-    local color = "569|335|E5DCCB,413|533|71582D,618|533|3A712B,871|535|2E5E86"
-    return not Util.CompareColor(color)
-end
-
 function Util.WaitTime(seconds)
     sleep(seconds * 1000)
 end
-
--- 拖动
--- function Util.Swipe(from, to)
---     -- waitTime = waitTime * 1000 or 0
---     touchDown(1, from[1], from[2])
---     Util.WaitTime(0.05)
---     touchMoveEx(1, to[1], to[2], 500)
---     -- touchMoveEx(1, to[1], to[2], 50)
---     touchUp(1)
---     Util.WaitTime(0.8)
--- end
 
 function Util.Swipe(from, to, time)
     local result = swipe(from[1], from[2], to[1], to[2], time * 1000)
     local msg = result and "成功" or "失败"
     print("滑动结果->>>" .. msg)
 end
-
--- function Util.Swipe(x1, y1, x2, y2, time)
---     local gesture = Gesture:new()
---     local path = Path:new()
---     path:setStartTime(100)
---     path:setDurTime(3000)
---     path:addPoint(x1, y1)
---     path:addPoint(x2, y2)
---     gesture:addPath(path)
--- end
 
 -- 多点比色
 function Util.CompareColor(msg, sim)

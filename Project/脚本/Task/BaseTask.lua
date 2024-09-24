@@ -22,7 +22,7 @@ function Task:Completed()
 end
 
 -- 暂停该Task
-function Task:Pause()
+function Task:Pause(isReduceStep)
     self.isPause = true
 end
 
@@ -50,8 +50,8 @@ end
 
 function Task:AddStep()
     self.curStep = self.curStep + 1
-    log("进入第" .. self.curStep .. "步")
-    Util.WaitTime(1)
+    log(self.taskType .. "进入第" .. self.curStep .. "步")
+    -- Util.WaitTime(0.5)
 end
 
 function Task:ReduceStep()
@@ -61,8 +61,8 @@ end
 -- 跳转到step
 function Task:ChangeStep(step)
     self.curStep = step
-    log("跳转到第" .. self.curStep .. "步")
-    Util.WaitTime(1)
+    log(self.taskType .. "跳转到第" .. self.curStep .. "步")
+    -- Util.WaitTime(0.5)
 end
 
 return Task

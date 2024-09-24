@@ -6,6 +6,7 @@
         <file name="Step\BattleReadyStep.lua"/>
         <file name="Step\CommonBattleStep.lua"/>
         <file name="Step\SettlementStep.lua"/>
+        <file name="Step\ResNotEnoughStep.lua"/>
         <file name="Task\TaskMgr.lua"/>
         <file name="Task\BaseTask.lua"/>
         <file name="Task\InternetErrorTask.lua"/>

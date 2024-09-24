@@ -3,11 +3,13 @@ local insert = table.insert
 -- local BaseTask = require("Task.BaseTask")
 local HomeTask = require("Task.HomeTask")
 
+--todo 看能否将资源不足的界面写到Step里,在点击之后进行Step判断一下
+
 local TaskType = {
     -- 插入型task
     -- 网络错误
     ["网络错误"] = require("Task.InternetErrorTask"),
-
+    -- ["资源不足"] = require("")
     -- ["派遣界面"] = require("")
 
     -- 通用Task
@@ -64,7 +66,7 @@ function TaskMgr:Update()
         end
     end
 
-    if not Util.GetInternetValid() then
+    if not GameUtil.GetInternetValid() then
         if self.curTask and self.curTask.taskType ~= "网络错误" then
             self:AddTaskAndRun("网络错误")
         end
@@ -90,11 +92,12 @@ function TaskMgr:AddTask(taskType)
 end
 
 -- 添加任务并且立即执行,一般放在不定的插入型task
-function TaskMgr:AddTaskAndRun(taskType)
+function TaskMgr:AddTaskAndRun(taskType, isReduce)
+    isReduce = isReduce or false
     local taskClass = TaskType[taskType]
     local task = taskClass:new()
     if self.curTask then
-        self.curTask:Pause()
+        self.curTask:Pause(isReduce)
     end
 
     insert(self.tasks, 1, task)

@@ -54,4 +54,17 @@ function GameUtil.SetAutoBattle()
     Util.Click(1125, 34)
 end
 
+-- 网络是否有效
+function GameUtil.GetInternetValid()
+    -- todo
+    return true
+end
+
+-- 是否体力不足
+function GameUtil.IsEnergyEnough()
+    local color = "569|335|E5DCCB,413|533|71582D,618|533|3A712B,871|535|2E5E86"
+    return not Util.CompareColor(color)
+end
+
+
 _G.GameUtil = GameUtil

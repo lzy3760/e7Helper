@@ -10,6 +10,8 @@ local BattleReadyStep = require("Step.BattleReadyStep")
 local CommonBattleStep = require("Step.CommonBattleStep")
 ---@type SettlementStep
 local SettlementStep = require("Step.SettlementStep")
+---@type ResNotEnoughStep
+local ResNotEnoughStep = require("Step.ResNotEnoughStep")
 
 -- 讨伐
 ---@class HuntTask:BaseTask
@@ -50,10 +52,6 @@ local Steps = {
         inPanel = "250|668|222322,626|681|765D34,1145|662|17391B",
         -- {"250|668|222322,626|681|765D34,1145|662|17391B",0.9}
         click = {1145, 659}
-    },
-    [5] = {
-        inPanel = "17|665|0D1E3B,120|663|0D1E3B",
-        click = {1071, 661}
     }
 }
 
@@ -79,11 +77,18 @@ function HuntTask:Enter()
     BattleEnterStep:SetTarget("讨伐", 3)
     BattleReadyStep:SetTarget(false, false)
     SettlementStep:SetTarget(true)
+    ResNotEnoughStep:SetCallBack(false, function()
+    end, function()
+    end)
 end
 
-function HuntTask:Pause()
-    BaseTask.Pause(self)
-    self:ReduceStep()
+-- 需要测试下断网续连之后会不会自动进副本
+-- 还是会把上一次点击给吞掉
+function HuntTask:Pause(isReduceStep)
+    BaseTask.Pause(self, isReduceStep)
+    if isReduceStep then
+        self:ReduceStep()
+    end
 end
 
 function HuntTask:Update()
@@ -154,8 +159,20 @@ function HuntTask:Step4()
     end
 end
 
--- 局内的自动战斗设置
+-- 体力不足
 function HuntTask:Step5()
+    local result = ResNotEnoughStep:Execute(ResType.Energy)
+    if result then
+        if false then
+            self:AddStep()
+        else
+            self:Completed()
+        end
+    end
+end
+
+-- 局内的自动战斗设置
+function HuntTask:Step6()
     local result = CloseAutoStep:Execute()
     if result then
         self:AddStep()
@@ -163,7 +180,7 @@ function HuntTask:Step5()
 end
 
 -- 战斗中判断胜利或者失败
-function HuntTask:Step6()
+function HuntTask:Step7()
     local result = CommonBattleStep:Execute()
     if result ~= nil then
         self.curHuntCount = self.curHuntCount + 1
@@ -178,7 +195,7 @@ function HuntTask:Step6()
 end
 
 -- 胜利后的跳转
-function HuntTask:Step7()
+function HuntTask:Step8()
     local result = SettlementStep:Execute()
     if result then
         self:Retry()

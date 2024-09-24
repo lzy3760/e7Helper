@@ -10,3 +10,14 @@ _G.HuntTargetType = {
     -- 光讨伐
     Guang = 5
 }
+
+_G.ResType = {
+    -- 金币
+    Coin = 1,
+    -- 钻石
+    Diamond = 2,
+    -- 竞技场票
+    JJCRes = 3,
+    -- 体力
+    Energy = 4
+}
