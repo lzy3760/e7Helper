@@ -66,5 +66,9 @@ function GameUtil.IsEnergyEnough()
     return not Util.CompareColor(color)
 end
 
+--是否资源不足
+function GameUtil.IsResEnough(resType)
+
+end
 
 _G.GameUtil = GameUtil

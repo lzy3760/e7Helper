@@ -10,8 +10,8 @@ local BattleReadyStep = require("Step.BattleReadyStep")
 local CommonBattleStep = require("Step.CommonBattleStep")
 ---@type SettlementStep
 local SettlementStep = require("Step.SettlementStep")
----@type ResNotEnoughStep
-local ResNotEnoughStep = require("Step.ResNotEnoughStep")
+---@type MulTapStep
+local MulTapStep = require("Step.MulTapStep")
 
 -- 讨伐
 ---@class HuntTask:BaseTask
@@ -77,9 +77,8 @@ function HuntTask:Enter()
     BattleEnterStep:SetTarget("讨伐", 3)
     BattleReadyStep:SetTarget(false, false)
     SettlementStep:SetTarget(true)
-    ResNotEnoughStep:SetCallBack(false, function()
-    end, function()
-    end)
+    -- 购买填这个坐标列表,不购买填另一个坐标列表
+    MulTapStep:SetPoint(true and {} or {})
 end
 
 -- 需要测试下断网续连之后会不会自动进副本
@@ -159,15 +158,13 @@ function HuntTask:Step4()
     end
 end
 
--- 体力不足
+-- 检测体力
 function HuntTask:Step5()
-    local result = ResNotEnoughStep:Execute(ResType.Energy)
-    if result then
-        if false then
-            self:AddStep()
-        else
-            self:Completed()
-        end
+    if GameUtil.IsResEnough(ResType.Energy) then
+        self:AddStep()
+        MulTapStep:Reset()
+    else
+        MulTapStep:Execute()
     end
 end
 
