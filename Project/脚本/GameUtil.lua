@@ -6,10 +6,6 @@ function GameUtil.IsInHome()
     return Util.CompareColor(HomeColor)
 end
 
-
-
-
-
 local QuickBattle = "1221|639|E6DFED,1259|681|E6DFED"
 
 -- 是否关闭快速挑战
@@ -22,9 +18,6 @@ end
 function GameUtil.SetQuickBattle()
     Util.Click(1233, 664)
 end
-
-
-
 
 local ContinueBattle = "5BBB02"
 -- 连续挑战
@@ -39,11 +32,7 @@ function GameUtil.SetContinueBattle()
     Util.Click(582, 559)
 end
 
-
-
-
-
---这里采对号上白色,蓝色背景是半透图,会受游戏背景的影响
+-- 这里采对号上白色,蓝色背景是半透图,会受游戏背景的影响
 local Battle = {"1002|698|D6F7FF,1007|693|D6F7FF", "1080|698|D6F7FF,1084|694|D6F7FF", "1158|698|D6F7FF,1163|693|D6F7FF",
                 "1237|697|D6F7FF,1241|694|D6F7FF"}
 
@@ -66,19 +55,11 @@ function GameUtil.SetAutoBattle()
     Util.Click(1125, 34)
 end
 
-
-
-
-
 -- 网络是否有效
 function GameUtil.GetInternetValid()
     -- todo
     return true
 end
-
-
-
-
 
 -- 是否体力不足
 function GameUtil.IsEnergyEnough()
@@ -86,12 +67,7 @@ function GameUtil.IsEnergyEnough()
     return not Util.CompareColor(color)
 end
 
-
-
-
-
-
---是否资源不足
+-- 是否资源不足
 function GameUtil.IsResEnough(resType)
 
 end

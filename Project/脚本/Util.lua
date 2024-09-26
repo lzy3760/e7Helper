@@ -92,6 +92,19 @@ function Util.findPicAndClick(x1, y1, x2, y2, picName, dir)
     end
 end
 
+function Util.FindMulColorAndClick(x1, y1, x2, y2, firstColor, offsetColor, dir, sim)
+    dir = dir or FindDir.LeftUpToRightDown
+    sim = sim or 0.9
+    local x, y = findMultiColor(x1, y1, x2, y2, firstColor, offsetColor, dir, sim)
+    if x ~= -1 and y ~= -1 then
+        Util.Click(x, y)
+        return true
+    else
+        return false
+    end
+end
+
+
 -- 利用反射调用一个方法
 function Util.Invoke(table, funcName, ...)
     local env = {

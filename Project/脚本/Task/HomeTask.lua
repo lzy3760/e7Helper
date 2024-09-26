@@ -14,7 +14,7 @@ end
 
 function HomeTask:Update()
     MulTapStep:Execute()
-    if MulTapStep.step > #MulTapStep.points then
+    if MulTapStep:IsComplete() then
         self:Completed()
     end
 end

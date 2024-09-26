@@ -1,6 +1,9 @@
 ---@class MulTapStep ¶àÖØµã»÷Step
 local Step = {}
 
+-- example
+local ExamplePoints = {{"x1,x2,y1,y2,color,offsetColor"}}
+
 function Step:Reset()
     self.step = 1
 end
@@ -19,9 +22,17 @@ function Step:Execute()
     end
 
     local point = self.points[self.step]
-    Util.Click(point[1], point[2])
-    self.step = self.step + 1
-    Util.WaitTime(self.internal)
+    local clickResult = Util.FindMulColorAndClick(point.x1, point.y1, point.x2, point.y2, point.firstColor,
+        point.offsetColor)
+
+    if clickResult then
+        self.step = self.step + 1
+        Util.WaitTime(self.internal)
+    end
+end
+
+function Step:IsComplete()
+    return self.step > #self.points
 end
 
 return Step
