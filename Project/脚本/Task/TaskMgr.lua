@@ -3,7 +3,7 @@ local insert = table.insert
 -- local BaseTask = require("Task.BaseTask")
 local HomeTask = require("Task.HomeTask")
 
---todo 看能否将资源不足的界面写到Step里,在点击之后进行Step判断一下
+-- todo 看能否将资源不足的界面写到Step里,在点击之后进行Step判断一下
 
 local TaskType = {
     -- 插入型task
@@ -18,7 +18,9 @@ local TaskType = {
 
     -- 功能Task
     ["刷书签"] = require("Task.RandomStoreTask"),
-    ["讨伐"] = require("Task.HuntTask")
+    ["讨伐"] = require("Task.HuntTask"),
+    ["迷宫强化石"] = require("Task.MazeIntensifyTask"),
+    ["主线强化石"] = require("Task.MainLineIntensifyTask")
 }
 
 local TaskMgr = {}

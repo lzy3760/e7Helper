@@ -51,7 +51,7 @@ end
 function Task:AddStep()
     self.curStep = self.curStep + 1
     log(self.taskType .. "进入第" .. self.curStep .. "步")
-    -- Util.WaitTime(0.5)
+    Util.WaitTime(1)
 end
 
 function Task:ReduceStep()

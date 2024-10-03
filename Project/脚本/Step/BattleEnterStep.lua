@@ -5,7 +5,7 @@ local BattleType = {
 }
 
 local inBattlePanel = "28|32|FFFFFF,525|688|4D3921"
-local BattlePos = {{}, {}, {806, 341}, {}}
+local BattlePos = {{179, 351}, {}, {806, 341}, {}}
 
 local EnterPos = {965, 643}
 
@@ -19,10 +19,10 @@ local Step = {}
 
 ---@param battleType string BattleÀàÐÍ
 ---@param battlePos number Battle×ø±ê
-function Step:SetTarget(battleType, battlePos)
+function Step:SetTarget(battleType)
     self:Reset()
     self.battleType = battleType
-    self.battlePos = battlePos
+    self.battlePos = BattleType[battleType]
 end
 
 function Step:Execute()

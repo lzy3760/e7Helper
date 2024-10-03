@@ -39,7 +39,7 @@ local Battle = {"1002|698|D6F7FF,1007|693|D6F7FF", "1080|698|D6F7FF,1084|694|D6F
 -- 是否在自动战斗
 function GameUtil.IsAutoBattle()
     for _, color in pairs(Battle) do
-        local suc = Util.CompareColor(color, 0.5)
+        local suc = Util.CompareColor(color, 0.9)
         if suc then
             log("是在自动战斗")
             return true
@@ -67,9 +67,49 @@ function GameUtil.IsEnergyEnough()
     return not Util.CompareColor(color)
 end
 
--- 是否资源不足
+-- 是否资源充足
 function GameUtil.IsResEnough(resType)
+    if resType == ResType.Energy then
+        return GameUtil.IsEnergyEnough()
+    else
+        print("获取未知坐标资源")
+    end
+end
 
+
+-- 是否在迷宫选择处
+function GameUtil.IsInMazeSelect()
+    for i = 1, 4 do
+        local suc = GameUtil.HasMazeDir(i)
+        if suc then
+            return true
+        end
+    end
+
+    return false
+end
+
+-- 有无迷宫方向
+function GameUtil.HasMazeDir(mazeDir)
+    local size
+    local picName
+    if mazeDir == MazeDir.N then
+        size = {13, 133, 252, 334}
+        picName = "N.png"
+    elseif mazeDir == MazeDir.W then
+        size = {39, 430, 219, 589}
+        picName = "W.png"
+    elseif mazeDir == MazeDir.E then
+        size = {1071, 152, 1243, 336}
+        picName = "E.png"
+    elseif mazeDir == MazeDir.S then
+        size = {1068, 425, 1251, 599}
+        picName = "S.png"
+    end
+
+    local ret, x, y = findPicEx(size[1], size[2], size[3], size[4], picName, 0.9)
+    local suc = x ~= -1 and y ~= -1
+    return suc, x, y
 end
 
 _G.GameUtil = GameUtil

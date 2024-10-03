@@ -37,6 +37,7 @@ function BattleReadyStep:Execute()
         end
     end
 
+    Util.WaitTime(0.5)
     Util.Click(click.x, click.y)
     return true
 end

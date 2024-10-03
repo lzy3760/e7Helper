@@ -1,4 +1,4 @@
----@class MulTapStep 多重点击Step
+---@class MulTapStep 多重点击Step,识别到对应颜色然后才点击
 local Step = {}
 
 -- example
@@ -10,10 +10,10 @@ end
 
 function Step:SetPoint(points, internal)
     self.points = points
-    self.step = #self.points
+    self.step = 1
 
     -- 点击间隔
-    self.internal = internal or 0
+    self.internal = internal or 1
 end
 
 function Step:Execute()
@@ -22,8 +22,7 @@ function Step:Execute()
     end
 
     local point = self.points[self.step]
-    local clickResult = Util.FindMulColorAndClick(point.x1, point.y1, point.x2, point.y2, point.firstColor,
-        point.offsetColor)
+    local clickResult = Util.FindMulColorAndClick(point[1], point[2], point[3], point[4], point[5], point[6])
 
     if clickResult then
         self.step = self.step + 1

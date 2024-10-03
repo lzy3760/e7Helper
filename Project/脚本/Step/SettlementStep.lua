@@ -32,6 +32,7 @@ function SettlementStep:Execute()
             Util.Click(confirmBtn.x, confirmBtn.y)
             if self.hasRetry then
                 self.state = State.Retry
+                Util.WaitTime(1)
             else
                 return true
             end

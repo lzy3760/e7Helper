@@ -21,3 +21,17 @@ _G.ResType = {
     -- 体力
     Energy = 4
 }
+
+_G.MazeDir = {
+    N = 1,
+    W = 2,
+    E = 3,
+    S = 4
+}
+
+_G.BuyType = {
+    -- 强化石
+    IntensifyStone = 1,
+    -- 货币
+    Res = 2
+}

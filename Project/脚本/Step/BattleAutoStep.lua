@@ -1,13 +1,14 @@
----@class CloseAutoBattleStep 关闭局内自动战斗
+---@class BattleAutoStep 局内自动战斗
 local BattleAutoStep = {}
-
-local InBattlePanel = "45|157|FFFFFF,143|144|FFFFFF,151|151|FFFFFF,159|144|FFFFFF,1251|34|FFFFFF,1234|33|FFFFFF"
+local InBattlePanel = "1197|34|FFFFFF,1249|32|FFFFFF"
 
 function BattleAutoStep:Execute()
     if not Util.CompareColor(InBattlePanel) then
+        print("不在战斗界面")
         return false
     end
 
+    Util.WaitTime(0.5)
     if not GameUtil.IsAutoBattle() then
         GameUtil.SetAutoBattle()
     end

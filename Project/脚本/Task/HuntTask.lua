@@ -2,8 +2,8 @@ local BaseTask = require("Task.BaseTask")
 
 ---@type BattleEnterStep
 local BattleEnterStep = require("Step.BattleEnterStep")
----@type CloseAutoBattleStep
-local CloseAutoStep = require("Step.CloseAutoStep")
+---@type BattleAutoStep
+local BattleAutoStep = require("Step.BattleAutoStep")
 ---@type BattleReadyStep
 local BattleReadyStep = require("Step.BattleReadyStep")
 ---@type CommonBattleStep
@@ -74,9 +74,8 @@ function HuntTask:Enter()
     -- todo create HUD
     self.hudId = createHUD()
     self:RefreshHUD()
-    BattleEnterStep:SetTarget("讨伐", 3)
+    BattleEnterStep:SetTarget("讨伐")
     BattleReadyStep:SetTarget(false, false)
-    SettlementStep:SetTarget(true)
     -- 购买填这个坐标列表,不购买填另一个坐标列表
     MulTapStep:SetPoint(true and {} or {})
 end
@@ -131,7 +130,8 @@ function HuntTask:Step3()
     -- 等0.5秒自动滑动到最下面
     Util.WaitTime(0.5)
 
-    local config = Steps[4]
+    local config = Steps[3]
+
     if not Util.CompareColor(config.inPanel) then
         return
     end
@@ -147,11 +147,6 @@ function HuntTask:Step4()
         return
     end
 
-    if self.curHuntCount >= self.huntCount then
-        self:Completed()
-        return
-    end
-
     local result = BattleReadyStep:Execute()
     if result then
         self:AddStep()
@@ -161,16 +156,18 @@ end
 -- 检测体力
 function HuntTask:Step5()
     if GameUtil.IsResEnough(ResType.Energy) then
+        print("体力充足")
         self:AddStep()
         MulTapStep:Reset()
     else
+        print("体力不足")
         MulTapStep:Execute()
     end
 end
 
 -- 局内的自动战斗设置
 function HuntTask:Step6()
-    local result = CloseAutoStep:Execute()
+    local result = BattleAutoStep:Execute()
     if result then
         self:AddStep()
     end
@@ -193,9 +190,21 @@ end
 
 -- 胜利后的跳转
 function HuntTask:Step8()
+    local isContinue = self.curHuntCount < self.huntCount
+    SettlementStep:SetTarget(isContinue)
     local result = SettlementStep:Execute()
     if result then
-        self:Retry()
+        print("进入结果判断")
+        if isContinue then
+            print("继续讨伐")
+            self:Retry()
+        else
+            print("返回大厅")
+            Util.Click(271, 656)
+            self:Completed()
+        end
+    else
+        print("未判断结果,等待讨伐结算")
     end
 end
 

@@ -2,7 +2,9 @@
 local MainPanel = {}
 local PanelName = "功能面板"
 local Funcs = {
-    ["讨伐"] = "Hunt"
+    ["讨伐"] = "Hunt",
+    ["迷宫强化石"] = "MazeIntensify",
+    ["主线强化石"] = "MainLineIntensify",
 }
 
 local Settings = {
@@ -13,6 +15,14 @@ local Panel
 
 function MainPanelHunt()
     Panel:AddTask("讨伐")
+end
+
+function MainPanelMazeIntensify()
+    Panel:AddTask("迷宫强化石")
+end
+
+function MainPanelMainLineIntensify()
+    Panel:AddTask("主线强化石")
 end
 
 function MainPanelHuntSetting()

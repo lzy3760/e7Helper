@@ -32,6 +32,7 @@ function Util.WaitTime(seconds)
 end
 
 function Util.Swipe(from, to, time)
+    time = time or 0.5
     local result = swipe(from[1], from[2], to[1], to[2], time * 1000)
     local msg = result and "成功" or "失败"
     print("滑动结果->>>" .. msg)
@@ -63,7 +64,7 @@ function Util.Click(x, y)
 end
 
 -- 找图
-function Util.findPic(x1, y1, x2, y2, picName, dir)
+function Util.findPic(x1, y1, x2, y2, picName, sim)
     if not x1 or not y1 or not x2 or not y2 then
         logError("缺少FindPic的坐标")
         return
@@ -74,8 +75,8 @@ function Util.findPic(x1, y1, x2, y2, picName, dir)
         return
     end
 
-    picName = picName .. ".png"
-    local ret, x, y = findPic(x1, y1, x2, y2, picName, "000000", 0.7, dir)
+    sim = sim or 0.9
+    local ret, x, y = findPicEx(x1, y1, x2, y2, picName, 0.9)
     if x ~= -1 and y ~= -1 then
         return true, x, y
     else
@@ -83,8 +84,8 @@ function Util.findPic(x1, y1, x2, y2, picName, dir)
     end
 end
 
-function Util.findPicAndClick(x1, y1, x2, y2, picName, dir)
-    local suc, x, y = Util.findPic(x1, y1, x2, y2, picName, dir)
+function Util.findPicAndClick(x1, y1, x2, y2, picName)
+    local suc, x, y = Util.findPic(x1, y1, x2, y2, picName)
     if suc then
         tap(x, y)
     else
@@ -92,6 +93,7 @@ function Util.findPicAndClick(x1, y1, x2, y2, picName, dir)
     end
 end
 
+-- 多颜色比对并点击对应区域
 function Util.FindMulColorAndClick(x1, y1, x2, y2, firstColor, offsetColor, dir, sim)
     dir = dir or FindDir.LeftUpToRightDown
     sim = sim or 0.9
@@ -104,6 +106,17 @@ function Util.FindMulColorAndClick(x1, y1, x2, y2, firstColor, offsetColor, dir,
     end
 end
 
+-- 多颜色比对
+function Util.FindMulColor(x1, y1, x2, y2, firstColor, offsetColor, dir, sim)
+    dir = dir or FindDir.LeftUpToRightDown
+    sim = sim or 0.9
+    local x, y = findMultiColor(x1, y1, x2, y2, firstColor, offsetColor, dir, sim)
+    if x ~= -1 and y ~= -1 then
+        return true, x, y
+    else
+        return false
+    end
+end
 
 -- 利用反射调用一个方法
 function Util.Invoke(table, funcName, ...)
@@ -131,7 +144,6 @@ function Util.Invoke(table, funcName, ...)
 
     return chunk()
 end
-
 
 ---@class Util
 _G.Util = Util
