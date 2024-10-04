@@ -29,7 +29,9 @@ _G.MazeDir = {
     S = 4
 }
 
+-- 资源购买类型
 _G.BuyType = {
+    All = 0,
     -- 强化石
     IntensifyStone = 1,
     -- 货币

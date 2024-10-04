@@ -20,7 +20,7 @@ local TaskType = {
     ["刷书签"] = require("Task.RandomStoreTask"),
     ["讨伐"] = require("Task.HuntTask"),
     ["迷宫强化石"] = require("Task.MazeIntensifyTask"),
-    ["主线强化石"] = require("Task.MainLineIntensifyTask")
+    ["主线强化石"] = require("Task.MainLineIntensifyTask"),
 }
 
 local TaskMgr = {}
@@ -82,7 +82,7 @@ end
 function TaskMgr:AddTask(taskType)
     local taskClass = TaskType[taskType]
     if not taskClass then
-        log("not find the task->>>>>>" .. taskType)
+        logError("not find the task->>>>>>" .. taskType)
         return
     end
 

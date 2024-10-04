@@ -36,7 +36,7 @@ end
 function MazeTask:Enter()
     BattleEnterStep:SetTarget("รินฌ")
     BattleReadyStep:SetTarget(nil, nil)
-    StoreBuyStep:SetTarget(BuyType.IntensifyStone)
+    StoreBuyStep:SetTarget(BuyType.All)
 end
 
 function MazeTask:Update()

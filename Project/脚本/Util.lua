@@ -118,6 +118,23 @@ function Util.FindMulColor(x1, y1, x2, y2, firstColor, offsetColor, dir, sim)
     end
 end
 
+function Util.FindMulColorByTable(table)
+    local x1 = table[1]
+    local y1 = table[2]
+    local x2 = table[3]
+    local y2 = table[4]
+    local firstColor = table[5]
+    local offsetColor = table[6]
+    local dir = table[7] or FindDir.LeftUpToRightDown
+    local sim = table[8] or 0.9
+    local x, y = findMultiColor(x1, y1, x2, y2, firstColor, offsetColor, dir, sim)
+    if x ~= -1 and y ~= -1 then
+        return true, x, y
+    else
+        return false
+    end
+end
+
 -- 利用反射调用一个方法
 function Util.Invoke(table, funcName, ...)
     local env = {

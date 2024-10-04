@@ -5,6 +5,7 @@ local Funcs = {
     ["讨伐"] = "Hunt",
     ["迷宫强化石"] = "MazeIntensify",
     ["主线强化石"] = "MainLineIntensify",
+    ["刷书签"] = "RandomStore"
 }
 
 local Settings = {
@@ -23,6 +24,10 @@ end
 
 function MainPanelMainLineIntensify()
     Panel:AddTask("主线强化石")
+end
+
+function MainPanelRandomStore()
+    Panel:AddTask("刷书签")
 end
 
 function MainPanelHuntSetting()

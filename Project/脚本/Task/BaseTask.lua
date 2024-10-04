@@ -62,7 +62,7 @@ end
 function Task:ChangeStep(step)
     self.curStep = step
     log(self.taskType .. "跳转到第" .. self.curStep .. "步")
-    -- Util.WaitTime(0.5)
+    Util.WaitTime(1)
 end
 
 return Task

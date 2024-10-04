@@ -7,18 +7,21 @@ local MulClickStep = require("Step.MulClickStep")
 -- 强化石
 local IntensifyStone = {
     [1] = {
-        -- firstColor = "CFBE9F",
-        -- offsetColor = "16|19|504E26"
-        -- offsetColor = "-6|20|DACDB3|-14|27|CEBEA0"
         picName = "Stone1.png"
     },
     [2] = {
-        -- firstColor = "344342",
-        -- offsetColor = "13|14|7C3E5E"
         picName = "Stone2.png"
     }
+}
 
-    -- {553,594,650,697,"FFF7D8","-6|20|DACDB3|-14|27|CEBEA0",0,0.9}
+-- 货币
+local Res = {
+    [1] = {
+        picName = "Res1.png"
+    },
+    [2] = {
+        picName = "Res2.png"
+    }
 }
 
 local SwipeFrom = {755, 572}
@@ -53,8 +56,14 @@ local Goods = {
     }
 }
 
-function StoreBuyStep:SetTarget(buyType)
+function StoreBuyStep:SetTarget(buyType, func)
     self.buyType = buyType
+    self.buyIndex = 1
+    self.buyFunc = func
+    self.resType = nil
+end
+
+function StoreBuyStep:ResetBuyIndex()
     self.buyIndex = 1
 end
 
@@ -70,10 +79,14 @@ function StoreBuyStep:Execute()
     if canBuy then
         local buyPos = Goods[self.buyIndex].buyPos
         MulClickStep:Execute({buyPos, {722, 505}}, 1)
-        --MulClickStep:Execute({buyPos, {496, 505}}, 1)
+        
+        if self.buyFunc and self.resType ~= nil then
+            self.buyFunc(self.resType)
+            self.resType = nil
+        end
+
         self.buyIndex = self.buyIndex + 1
     else
-        print("该商品不是强化石,不购买")
         self.buyIndex = self.buyIndex + 1
     end
 
@@ -89,6 +102,8 @@ function StoreBuyStep:CanBuyInIndex(index)
         return self:CanBuyStone(index)
     elseif self.buyType == BuyType.Res then
         return self:CanBuyRes(index)
+    elseif self.buyType == BuyType.All then
+        return self:CanBuyStone(index) or self:CanBuyRes(index)
     end
 end
 
@@ -98,16 +113,31 @@ function StoreBuyStep:CanBuyStone(index)
     for _, stone in pairs(IntensifyStone) do
         local suc, x, y = Util.findPic(size[1], size[2], size[3], size[4], stone.picName)
         if suc then
+            print("购买物品是" .. stone.picName)
             print(tostring(x) .. "---" .. tostring(y))
             return true
         end
     end
 
+    print("该物品不是强化石,不购买")
     return false
 end
 
-function StoreBuyStep:CanBuyRes()
+function StoreBuyStep:CanBuyRes(index)
+    local config = Goods[index]
+    local size = config.size
+    for index, stone in pairs(Res) do
+        local suc, x, y = Util.findPic(size[1], size[2], size[3], size[4], stone.picName)
+        if suc then
+            print("购买物品是" .. stone.picName)
+            print(tostring(x) .. "---" .. tostring(y))
+            self.resType = index
+            return true
+        end
+    end
 
+    print("该物品不是货币,不购买")
+    return false
 end
 
 return StoreBuyStep
