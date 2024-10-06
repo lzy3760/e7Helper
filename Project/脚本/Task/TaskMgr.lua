@@ -21,9 +21,28 @@ local TaskType = {
     ["讨伐"] = require("Task.HuntTask"),
     ["迷宫强化石"] = require("Task.MazeIntensifyTask"),
     ["主线强化石"] = require("Task.MainLineIntensifyTask"),
+    ["竞技场"] = require("Task.JJCTask")
+}
+
+local InternetState = {
+    -- 跑拉斯
+    WaitLaSi = 1,
+    -- 等待点击重连
+    WaitReConnect = 2,
+    -- 没有问题
+    Right = 3
 }
 
 local TaskMgr = {}
+
+-- 跑拉斯
+local WaitLaSi =
+    {"560|348|FFFFFF,575|347|FFFFFF,591|348|FFFFFF,608|348|FFFFFF,625|348|FFFFFF,637|348|FFFFFF,657|348|FFFFFF,667|348|FFFFFF,673|347|FFFFFF,690|347|FFFFFF",
+     0.9}
+
+local WaitReConnect =
+    {"519|303|808080,533|303|7F7F7F,518|318|858585,532|318|7C7C7C,538|317|858585,545|317|858585,552|317|878787,565|304|878787,579|306|888888,604|306|7A7A7A,624|305|888888",
+     0.9}
 
 function TaskMgr:Init()
     self.tasks = {}
@@ -41,6 +60,13 @@ function TaskMgr:Update()
     end
 
     if not self.curTask then
+        return
+    end
+
+    local internetState = self:GetInternatState()
+    if internetState ~= InternetState.Right then
+        print("网络错误，点击屏幕")
+        Util.Click(627, 348)
         return
     end
 
@@ -67,12 +93,17 @@ function TaskMgr:Update()
             end
         end
     end
+end
 
-    if not GameUtil.GetInternetValid() then
-        if self.curTask and self.curTask.taskType ~= "网络错误" then
-            self:AddTaskAndRun("网络错误")
-        end
+function TaskMgr:GetInternatState()
+    if Util.CompareColorByTable(WaitLaSi) then
+        return InternetState.WaitLaSi
+    elseif Util.CompareColorByTable(WaitReConnect) then
+        return InternetState.WaitReConnect
+    else
+        return InternetState.Right
     end
+    -- elseif Util.
 end
 
 function TaskMgr:Release()
@@ -94,17 +125,11 @@ function TaskMgr:AddTask(taskType)
 end
 
 -- 添加任务并且立即执行,一般放在不定的插入型task
-function TaskMgr:AddTaskAndRun(taskType, isReduce)
+function TaskMgr:PauseTask(isReduce)
     isReduce = isReduce or false
-    local taskClass = TaskType[taskType]
-    local task = taskClass:new()
     if self.curTask then
         self.curTask:Pause(isReduce)
     end
-
-    insert(self.tasks, 1, task)
-    self.curTask = task
-    self.curTask:Enter()
 end
 
 function TaskMgr:Start(cmds)

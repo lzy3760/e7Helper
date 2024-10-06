@@ -37,3 +37,10 @@ _G.BuyType = {
     -- »õ±Ò
     Res = 2
 }
+
+_G.RoomState = {
+    -- ÆÕÍ¨
+    NormalState = 1,
+    -- ×°ÊÎ
+    DecorateState = 2
+}

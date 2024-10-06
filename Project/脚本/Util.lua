@@ -46,6 +46,12 @@ function Util.CompareColor(msg, sim)
     return result > 0
 end
 
+-- 通过table多点比色
+function Util.CompareColorByTable(table)
+    local result = cmpColorExT(table)
+    return result > 0
+end
+
 function Util.FindColor(x1, y1, x2, y2, color, dir, sim)
     sim = sim or 0.9
     local ret, x, y = findColor(x1, y1, x2, y2, color, dir, sim)
@@ -160,6 +166,10 @@ function Util.Invoke(table, funcName, ...)
     end
 
     return chunk()
+end
+
+function Util.IsDisplayDead(time)
+    return isDisplayDead(0, 0, 1280, 720, time)
 end
 
 ---@class Util

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<lcprojit projname="Project" appname="main.lua" is_acc_mode="0" pkgname="E7Helper">
+<lcprojit projname="Project" appname="E7Helper1" is_acc_mode="0" pkgname="com.example" bootrun="0" removeocr="0" ver="101" sel="0" cputype="6" op_rootmode="0" op_byhandlemode="0" op_accmode="1" isrunrootenv="0" is_usedebug_activity="false" control_img_fill="0" is_notshow_hostui="0" is_volctrl="0" def_checked_nodeser="0" def_checked_recordlog="1" def_checked_useroot="1" not_show_float="0" del_ncnn="0" del_onnx="0" is_autorun="0" is_add_settings="1" is_add_pause="1" is_add_exit="1" is_add_userevent="1" tv_event="用户事件" vir_wid="0" vir_hei="0">
     <lua entry="Project.lua">
         <file name="Step\BattleEnterStep.lua"/>
         <file name="Step\BattleAutoStep.lua"/>

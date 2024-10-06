@@ -18,9 +18,9 @@ local MazeTask = class("MazeIntensifyTask", BaseTask)
 
 local Steps = {
     [2] = {
-        swipeFrom = {845, 688},
-        swipeTo = {887, 35},
-        clickPos = {850, 673}
+        mulColor = {727, 122, 960, 716, "958F1A", "125|-20|CBAE9F", 0, 0.9},
+        swipeFrom = {850, 705},
+        swipeTo = {843, 135}
     },
     [3] = {
         swipeTo = {787, 676},
@@ -53,13 +53,31 @@ end
 -- 进大关
 -- todo 判断下第一关有没有给打通
 function MazeTask:Step2()
-    Util.WaitTime(1.5)
+    -- Util.WaitTime(1.5)
+    -- local config = Steps[2]
+    -- Util.Swipe(config.swipeFrom, config.swipeTo)
+    -- Util.WaitTime(1.5)
+    -- local clickPos = config.clickPos
+    -- Util.Click(clickPos[1], clickPos[2])
+    -- self:AddStep()
+
     local config = Steps[2]
-    Util.Swipe(config.swipeFrom, config.swipeTo)
-    Util.WaitTime(1.5)
-    local clickPos = config.clickPos
-    Util.Click(clickPos[1], clickPos[2])
-    self:AddStep()
+    local suc, x, y = Util.FindMulColorByTable(config.mulColor)
+    if suc then
+        Util.Click(x, y)
+        self:AddStep()
+        return
+    else
+        Util.Swipe(config.swipeFrom, config.swipeTo)
+        Util.WaitTime(1.5)
+        suc, x, y = Util.FindMulColorByTable(config.mulColor)
+        if not suc then
+            logError("没有找到强化石迷宫入口")
+        else
+            Util.Click(x, y)
+            self:AddStep()
+        end
+    end
 end
 
 -- 选小关
@@ -105,7 +123,7 @@ function MazeTask:Step7()
 
     Util.WaitTime(1.5)
 
-    for i = 1,4 do
+    for i = 1, 4 do
         Util.Click(645, 360)
         Util.WaitTime(0.3)
     end

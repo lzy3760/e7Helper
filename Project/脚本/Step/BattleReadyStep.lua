@@ -31,6 +31,8 @@ function BattleReadyStep:Execute()
         end
     end
 
+    Util.WaitTime(0.1)
+
     if self.continueBattle ~= nil then
         if GameUtil.IsContinueBattle() ~= self.continueBattle then
             GameUtil.SetContinueBattle()

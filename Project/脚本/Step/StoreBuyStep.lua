@@ -78,7 +78,7 @@ function StoreBuyStep:Execute()
     local canBuy = self:CanBuyInIndex(self.buyIndex)
     if canBuy then
         local buyPos = Goods[self.buyIndex].buyPos
-        MulClickStep:Execute({buyPos, {722, 505}}, 1)
+        MulClickStep:Execute({buyPos, {722, 505}}, 0.5)
         
         if self.buyFunc and self.resType ~= nil then
             self.buyFunc(self.resType)

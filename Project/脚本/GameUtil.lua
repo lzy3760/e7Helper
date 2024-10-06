@@ -76,7 +76,6 @@ function GameUtil.IsResEnough(resType)
     end
 end
 
-
 -- ÊÇ·ñÔÚÃÔ¹¬Ñ¡Ôñ´¦
 function GameUtil.IsInMazeSelect()
     for i = 1, 4 do
@@ -110,6 +109,18 @@ function GameUtil.HasMazeDir(mazeDir)
     local ret, x, y = findPicEx(size[1], size[2], size[3], size[4], picName, 0.9)
     local suc = x ~= -1 and y ~= -1
     return suc, x, y
+end
+
+-- {576,477,610,512,"201B1A","16|26|DE7152",0,0.9}
+-- 1-->ÆÕÍ¨×´Ì¬
+-- 2-->×°ÊÎ×´Ì¬
+function GameUtil.GetHomeState()
+    local result = Util.FindMulColor(576, 477, 610, 515, "201B1A", "16|26|DE7152")
+    if result then
+        return RoomState.DecorateState
+    else
+        return RoomState.NormalState
+    end
 end
 
 _G.GameUtil = GameUtil

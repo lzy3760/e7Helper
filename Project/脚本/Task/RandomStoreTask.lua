@@ -5,15 +5,6 @@ local Task = class("RandomStoreTask", BaseTask)
 
 ---@type StoreBuyStep
 local StoreBuyStep = require("Step.StoreBuyStep")
----@type MulClickStep
-local MulClickStep = require("Step.MulClickStep")
-
-local State = {
-    -- ÆÕÍ¨
-    NormalState = 1,
-    -- ×°ÊÎ
-    DecorateState = 2
-}
 
 local Points = {
     [2] = {
@@ -27,18 +18,6 @@ local Points = {
 
 function Task:initialize()
     BaseTask.initialize(self, "Ë¢ÊéÇ©")
-end
-
--- {576,477,610,512,"201B1A","16|26|DE7152",0,0.9}
--- 1-->ÆÕÍ¨×´Ì¬
--- 2-->×°ÊÎ×´Ì¬
-local function GetHomeState()
-    local result = Util.FindMulColor(576, 477, 610, 515, "201B1A", "16|26|DE7152")
-    if result then
-        return State.DecorateState
-    else
-        return State.NormalState
-    end
 end
 
 function Task:Enter()
@@ -66,8 +45,8 @@ function Task:Update()
 end
 
 function Task:Step1()
-    local state = GetHomeState()
-    if state == State.NormalState then
+    local state = GameUtil.GetHomeState()
+    if state == RoomState.NormalState then
         Util.Click(567, 186)
     else
         Util.Click(55, 164)

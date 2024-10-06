@@ -9,7 +9,11 @@ function Step:Execute(points, internal)
     self.step = 1
 
     for _, point in pairs(self.points) do
-        Util.Click(point[1], point[2])
+        for i = 1, 2 do
+            Util.Click(point[1], point[2])
+            Util.WaitTime(0.1)
+        end
+
         self.step = self.step + 1
         Util.WaitTime(self.internal)
     end

@@ -5,12 +5,17 @@ local Funcs = {
     ["讨伐"] = "Hunt",
     ["迷宫强化石"] = "MazeIntensify",
     ["主线强化石"] = "MainLineIntensify",
-    ["刷书签"] = "RandomStore"
+    ["刷书签"] = "RandomStore",
+    ["竞技场"] = "JJC"
 }
+
+local FuncNames = {"讨伐", "迷宫强化石", "主线强化石", "刷书签", "竞技场"}
 
 local Settings = {
     ["讨伐设置"] = "HuntSetting"
 }
+
+local SettingNames = {"讨伐设置"}
 
 local Panel
 
@@ -28,6 +33,10 @@ end
 
 function MainPanelRandomStore()
     Panel:AddTask("刷书签")
+end
+
+function MainPanelJJC()
+    Panel:AddTask("竞技场")
 end
 
 function MainPanelHuntSetting()
@@ -79,10 +88,11 @@ function MainPanel:InitUI()
         ui.setOnClick(name, "MainPanel" .. funcName .. "()")
     end
 
-    local addArea = function(funcs, rowId)
+    local addArea = function(names, table, rowId)
         local rowIndex = 0
-        for name, funcName in pairs(funcs) do
+        for _, name in pairs(names) do
             rowIndex = rowIndex + 1
+            local funcName = table[name]
             addFunc(name, funcName)
 
             if rowIndex >= 4 then
@@ -102,7 +112,7 @@ function MainPanel:InitUI()
 
     -- func区域
     newRow()
-    addArea(Funcs, 1)
+    addArea(FuncNames, Funcs, 1)
 
     -- line
     newRow()
@@ -110,7 +120,7 @@ function MainPanel:InitUI()
     newRow()
 
     -- setting区域
-    addArea(Settings, 2)
+    addArea(SettingNames, Settings, 2)
 
     -- last
     newRow()
