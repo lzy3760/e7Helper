@@ -64,8 +64,6 @@ end
 
 -- 点击
 function Util.Click(x, y)
-    -- 检测到可以点击时有可能还在播放动画,延迟一下
-    Util.WaitTime(0.8)
     tap(x, y)
 end
 
