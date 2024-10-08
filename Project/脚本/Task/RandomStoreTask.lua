@@ -37,7 +37,7 @@ function Task:Enter()
         end
 
         self:RefreshHUD()
-    end)
+    end, Points[2].storePanel)
 end
 
 function Task:Update()
@@ -82,8 +82,7 @@ function Task:Step3()
 end
 
 function Task:Step4()
-    local result = StoreBuyStep:Execute()
-    if result then
+    if StoreBuyStep:Execute() then
         Util.WaitTime(1)
         self.curBuyCount = self.curBuyCount + 1
         if self.curBuyCount >= self.buyCount then

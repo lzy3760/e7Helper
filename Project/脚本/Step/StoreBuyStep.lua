@@ -1,8 +1,22 @@
 ---@class StoreBuyStep 商店购买步骤
 local StoreBuyStep = {}
 
+local InStore
+
+-- 确认购买的比对颜色
+local InConfirmColor = {}
+
 ---@type MulClickStep
 local MulClickStep = require("Step.MulClickStep")
+
+local State = {
+    -- 检查商品
+    CheckGood = 1,
+    -- 点击购买
+    ClickBuy = 2,
+    -- 确认点击
+    ConfirmBuy = 3
+}
 
 -- 强化石
 local IntensifyStone = {
@@ -56,20 +70,38 @@ local Goods = {
     }
 }
 
-function StoreBuyStep:SetTarget(buyType, func)
+function StoreBuyStep:SetTarget(buyType, func, storePanel)
     self.buyType = buyType
-    self.buyIndex = 1
     self.buyFunc = func
+    InStore = storePanel
+    self.buyIndex = 1
     self.resType = nil
 end
 
 function StoreBuyStep:ResetBuyIndex()
+    self.state = State.CheckGood
     self.buyIndex = 1
+    self.isSwipe = false
 end
 
 function StoreBuyStep:Execute()
-    if self.buyIndex == 5 then
+    if self.state == State.CheckGood then
+        self:OnCheck()
+    elseif self.state == State.ClickBuy then
+        self:OnClickBuy()
+    elseif self.state == State.ConfirmBuy then
+        self:OnConfirmBuy()
+    end
+end
+
+function StoreBuyStep:OnCheck()
+    if self.buyIndex > 6 then
+        return true
+    end
+
+    if self.buyIndex == 5 and self.isSwipe == false then
         print("第5个商品,滑动界面")
+        self.isSwipe = true
         Util.Swipe(SwipeFrom, SwipeTo, 0.5)
         Util.WaitTime(1.5)
     end
@@ -77,24 +109,29 @@ function StoreBuyStep:Execute()
     print("当前物品" .. tostring(self.buyIndex))
     local canBuy = self:CanBuyInIndex(self.buyIndex)
     if canBuy then
-        local buyPos = Goods[self.buyIndex].buyPos
-        MulClickStep:Execute({buyPos, {722, 505}}, 0.5)
-        
-        if self.buyFunc and self.resType ~= nil then
-            self.buyFunc(self.resType)
-            self.resType = nil
-        end
-
-        self.buyIndex = self.buyIndex + 1
+        self.state = State.ClickBuy
     else
         self.buyIndex = self.buyIndex + 1
     end
 
-    if self.buyIndex > 6 then
-        return true
-    end
+    return false
+end
 
-    Util.WaitTime(1)
+function StoreBuyStep:OnClickBuy()
+    local buyPos = Goods[self.buyIndex].buyPos
+    if Util.CompareColorByTable(InStore) then
+        Util.Click(buyPos[1], buyPos[2])
+    else
+        self.state = State.ConfirmBuy
+    end
+end
+
+function StoreBuyStep:OnConfirmBuy()
+    if Util.CompareColorByTable(InConfirmColor) then
+        Util.Click(722, 505)
+    else
+        self.state = State.CheckGood
+    end
 end
 
 function StoreBuyStep:CanBuyInIndex(index)

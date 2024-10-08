@@ -36,7 +36,8 @@ end
 function MazeTask:Enter()
     BattleEnterStep:SetTarget("迷宫")
     BattleReadyStep:SetTarget(nil, nil)
-    StoreBuyStep:SetTarget(BuyType.All)
+    StoreBuyStep:SetTarget(BuyType.All, nil, Steps[2].mulColor)
+    CommonExitStep:Reset()
 end
 
 function MazeTask:Update()
@@ -111,6 +112,7 @@ function MazeTask:Step6()
         return
     end
 
+    -- 这里不改，迷宫中不会有问题
     local points = {{108, 76}, {486, 164}, {748, 480}, {108, 76}, {202, 105}, {745, 477}, {130, 510}}
     MulClickStep:Execute(points, 1)
     self:AddStep()
@@ -142,8 +144,13 @@ end
 function MazeTask:Step9()
     Util.Click(72, 31)
     Util.WaitTime(1)
-    CommonExitStep:Execute()
-    self:Completed()
+    self:AddStep()
+end
+
+function MazeTask:Step10()
+    if CommonExitStep:Execute() then
+        self:Completed()
+    end
 end
 
 return MazeTask

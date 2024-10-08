@@ -35,7 +35,8 @@ end
 
 function Task:Enter()
     BattleReadyStep:SetTarget(nil, nil)
-    StoreBuyStep:SetTarget(BuyType.All)
+    StoreBuyStep:SetTarget(BuyType.All, nil, Points[2].inPanel)
+    CommonExitStep:Reset()
 end
 
 function Task:Update()
@@ -132,9 +133,15 @@ end
 
 function Task:Step9()
     Util.Click(72, 31)
-    Util.WaitTime(1)
-    CommonExitStep:Execute()
-    self:Completed()
+    Util.WaitTime(0.5)
+    self:AddStep()
+
+end
+
+function Task:Step10()
+    if CommonExitStep:Execute() then
+        self:Completed()
+    end
 end
 
 return Task
