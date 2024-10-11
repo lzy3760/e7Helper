@@ -25,6 +25,10 @@ local IntensifyStone = {
     },
     [2] = {
         picName = "Stone2.png"
+    },
+    [3] = 
+    {
+        picName = "Stone3.png"
     }
 }
 
