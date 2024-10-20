@@ -136,6 +136,11 @@ function StoreBuyStep:OnConfirmBuy()
         Util.Click(722, 505)
     else
         self.state = State.CheckGood
+        if self.resType and self.buyFunc then
+            self.buyFunc(self.resType)
+        end
+        -- 购买成功后等0.5s
+        Util.WaitTime(0.5)
     end
 end
 

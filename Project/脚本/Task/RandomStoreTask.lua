@@ -6,10 +6,11 @@ local Task = class("RandomStoreTask", BaseTask)
 ---@type StoreBuyStep
 local StoreBuyStep = require("Step.StoreBuyStep")
 
+local InStore = {"47|19|FFFFFF,29|32|FFFFFF,47|45|FFFFFF", 0.9}
+
 local Points = {
     [2] = {
         storePanel = {180, 627, 225, 697, "102D17", "-2|27|2E5D25", 0, 0.9}
-
     },
     [3] = {
         switchPanel = {639, 404, 847, 482, "172B49", "79|-1|162A48", 0, 0.9}
@@ -30,6 +31,7 @@ function Task:Enter()
     self.hudId = createHUD()
     self:RefreshHUD()
     StoreBuyStep:SetTarget(BuyType.Res, function(type)
+        log("¹ºÂòÎïÆ·"..tostring(type))
         if type == 1 then
             self.blueRes = self.blueRes + 1
         elseif type == 2 then
@@ -37,7 +39,7 @@ function Task:Enter()
         end
 
         self:RefreshHUD()
-    end, Points[2].storePanel)
+    end, InStore)
 end
 
 function Task:Update()
