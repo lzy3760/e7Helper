@@ -13,7 +13,7 @@ local SettlementStep = require("Step.SettlementStep")
 ---@type MulTapStep
 local MulTapStep = require("Step.MulTapStep")
 
-local BuyEnergy = true
+local BuyEnergy = false
 
 -- 不买体力退出
 local CancelColor = {316, 466, 503, 553, "312318", "45|23|765B2F|91|-2|322418", 0, 0.9}
