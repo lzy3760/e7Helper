@@ -65,8 +65,8 @@ function TaskMgr:Update()
 
     local internetState = self:GetInternatState()
     if internetState ~= InternetState.Right then
-        print("ÍøÂç´íÎó£¬µã»÷ÆÁÄ»")
-        Util.Click(627, 348)
+        --print("ÍøÂç´íÎó£¬µã»÷ÆÁÄ»")
+        --Util.Click(627, 348)
         return
     end
 

@@ -4,7 +4,10 @@ local HomeTask = class("HomeTask", BaseTask)
 
 local MulTapStep = require("Step.MulTapStep")
 
-local points = {{1221, 14, 1262, 52, "4487EB", "8|8|4487EB"}, {1074, 664, 1171, 706, "FFFFFF", "14|7|FFFFFF"}}
+local Point1 = {1219,31,1265,52,"4487EB","18|0|4487EB",0,0.9}
+local Point2 = {1080, 665, 1123, 703, "FFFFFF", "8|3|FFFFFF|15|3|FFFFFF", 0, 0.9}
+
+local points = {Point1, Point2}
 
 function HomeTask:initialize()
     BaseTask.initialize(self, "Ö÷½çÃæ")
@@ -15,6 +18,7 @@ function HomeTask:Enter()
 end
 
 function HomeTask:Update()
+    Util.WaitTime(1)
     MulTapStep:Execute()
     if MulTapStep:IsComplete() then
         self:Completed()

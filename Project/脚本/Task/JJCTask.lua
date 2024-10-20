@@ -18,7 +18,7 @@ local Points = {
     },
     [3] = {
         inPanel = {"221|537|152743,218|603|2E2017,217|667|2F2117", 0.9},
-        inNPCBattle = {"1206|185|01091C,1208|233|01091C", 0.9}
+        inNPCBattle = {"1077|211|FFFFFF,1092|209|FDFDFD,1106|210|FCFCFC,1170|209|01091C", 0.9}
     },
     [4] = {
         inPanel = {"859|659|18391B,968|657|112E17", 0.9}
@@ -67,12 +67,12 @@ end
 
 -- 选择NPC并且点击进入战斗
 function Task:Step3()
-    local config = Points[3]
-    if not Util.CompareColorByTable(config.inPanel) then
+    local config3 = Points[3]
+    if not Util.CompareColorByTable(config3.inPanel) then
         return
     end
 
-    if not Util.CompareColorByTable(config.inNPCBattle) then
+    if not Util.CompareColorByTable(config3.inNPCBattle) then
         Util.Click(1159, 212)
         Util.WaitTime(0.5)
     end
@@ -90,7 +90,7 @@ function Task:Step4()
     end
 
     Util.Click(874, 657)
-    self:ChangeStep(7)
+    self:ChangeStep(8)
 end
 
 -- 判断在战斗中打开自动战斗
@@ -105,23 +105,29 @@ function Task:Step5()
     end
 end
 
--- 点击胜利后的确定按钮
+-- 判断是否胜利
 function Task:Step6()
     local config = Points[6]
     if Util.CompareColorByTable(config.inPanel) then
-        Util.WaitTime(0.5)
-        for i = 1, 3 do
-            Util.Click(1172, 659)
-            Util.WaitTime(0.2)
-        end
+        Util.WaitTime(1)
+        self:AddStep()
+    end
+end
 
+-- 点击胜利后的确定按钮
+function Task:Step7()
+    local config = Points[6]
+    if Util.CompareColorByTable(config.inPanel) then
+        Util.Click(1172, 659)
+        log("点击确定了")
+    else
         self:ChangeStep(3)
-        Util.WaitTime(3)
+        Util.WaitTime(2)
     end
 end
 
 -- 判断货币是否足够
-function Task:Step7()
+function Task:Step8()
     Util.WaitTime(0.2)
     local config = Points[7]
     if not Util.CompareColorByTable(config.inPanel) then
@@ -134,7 +140,7 @@ function Task:Step7()
             -- 友情书签购买
         else
             Util.Click(733, 512)
-            self:ChangeStep(5)
+            self:ChangeStep(4)
         end
     end
 end

@@ -19,11 +19,11 @@ function GameUtil.SetQuickBattle()
     Util.Click(1233, 664)
 end
 
-local ContinueBattle = "5BBB02"
+local ContinueBattle = {564, 538, 602, 574, "60BE01", 0, 0.9}
 -- 连续挑战
 function GameUtil.IsContinueBattle()
     -- return Util.CompareColor(ContinueBattle)
-    local suc, x, y = Util.FindColor(574, 540, 605, 565, ContinueBattle, FindDir.LeftUpToRightDown)
+    local suc, x, y = Util.FindColor(ContinueBattle)
     return suc
 end
 
@@ -111,11 +111,12 @@ function GameUtil.HasMazeDir(mazeDir)
     return suc, x, y
 end
 
+local DecorTable = {"602|629|FFFFFF,614|629|FFFFFF,628|629|FFFFFF,595|669|C6C6C6,619|669|C6C6C6", 0.9}
 -- {576,477,610,512,"201B1A","16|26|DE7152",0,0.9}
 -- 1-->普通状态
 -- 2-->装饰状态
 function GameUtil.GetHomeState()
-    local result = Util.FindMulColor(576, 477, 610, 515, "201B1A", "16|26|DE7152")
+    local result = Util.CompareColorByTable(DecorTable)
     if result then
         return RoomState.DecorateState
     else

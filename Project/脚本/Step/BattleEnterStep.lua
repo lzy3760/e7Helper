@@ -29,7 +29,9 @@ function Step:Execute()
     if self.state == State.InHome then
         if GameUtil.IsInHome() then
             Util.Click(EnterPos[1], EnterPos[2])
+        else
             self.state = State.InBattle
+            Util.WaitTime(1)
         end
     elseif self.state == State.InBattle then
         if Util.CompareColor(inBattlePanel) then
@@ -41,8 +43,9 @@ function Step:Execute()
             local clickPos = BattlePos[self.battlePos]
             if clickPos then
                 Util.Click(clickPos[1], clickPos[2])
-                self.complete = true
             end
+        else
+            self.complete = true
         end
     end
 end

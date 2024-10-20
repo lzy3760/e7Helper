@@ -18,16 +18,18 @@ end
 
 function Step:Execute()
     if self.step > #self.points then
-        return
+        return true
     end
 
     local point = self.points[self.step]
-    local clickResult = Util.FindMulColorAndClick(point[1], point[2], point[3], point[4], point[5], point[6])
+    local clickResult = Util.FindMulColorAndClick(point)
 
     if clickResult then
         self.step = self.step + 1
         Util.WaitTime(self.internal)
     end
+
+    return false
 end
 
 function Step:IsComplete()

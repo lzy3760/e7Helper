@@ -4,10 +4,7 @@ local StoreBuyStep = {}
 local InStore
 
 -- 确认购买的比对颜色
-local InConfirmColor = {}
-
----@type MulClickStep
-local MulClickStep = require("Step.MulClickStep")
+local InConfirmColor = {"441|505|2F2218,546|505|312318,613|508|FEAD2A,781|502|123018,849|502|102D17", 0.9}
 
 local State = {
     -- 检查商品
@@ -26,8 +23,7 @@ local IntensifyStone = {
     [2] = {
         picName = "Stone2.png"
     },
-    [3] = 
-    {
+    [3] = {
         picName = "Stone3.png"
     }
 }
@@ -89,13 +85,17 @@ function StoreBuyStep:ResetBuyIndex()
 end
 
 function StoreBuyStep:Execute()
+    log("商店购买分支" .. tostring(self.state))
+    local result = false
     if self.state == State.CheckGood then
-        self:OnCheck()
+        result = self:OnCheck()
     elseif self.state == State.ClickBuy then
         self:OnClickBuy()
     elseif self.state == State.ConfirmBuy then
         self:OnConfirmBuy()
     end
+
+    return result
 end
 
 function StoreBuyStep:OnCheck()
@@ -124,6 +124,7 @@ end
 function StoreBuyStep:OnClickBuy()
     local buyPos = Goods[self.buyIndex].buyPos
     if Util.CompareColorByTable(InStore) then
+        log("点击购买物品")
         Util.Click(buyPos[1], buyPos[2])
     else
         self.state = State.ConfirmBuy

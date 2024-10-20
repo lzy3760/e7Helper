@@ -11,6 +11,8 @@ local StoreBuyStep = require("Step.StoreBuyStep")
 ---@type CommonExitStep
 local CommonExitStep = require("Step.CommonExitStep")
 
+local StoreColor = {"30|32|FFFFFF,71|33|FFFFFF,89|35|FFFFFF,105|30|FFFFFF", 0.9}
+
 ---@class MainLineIntensifyTask:BaseTask 主线强化石
 local Task = class("MainLineIntensifyTask", BaseTask)
 
@@ -35,7 +37,8 @@ end
 
 function Task:Enter()
     BattleReadyStep:SetTarget(nil, nil)
-    StoreBuyStep:SetTarget(BuyType.All, nil, Points[2].inPanel)
+    StoreBuyStep:SetTarget(BuyType.All, nil, StoreColor)
+    StoreBuyStep:ResetBuyIndex()
     CommonExitStep:Reset()
 end
 
@@ -46,6 +49,7 @@ end
 function Task:Step1()
     if GameUtil.IsInHome() then
         Util.Click(1212, 637)
+    else
         self:AddStep()
     end
 end
@@ -107,10 +111,11 @@ function Task:Step7()
         return
     end
 
+    log("在迷宫中，准备点击")
     -- 向左上角走
     Util.Click(131, 251)
     -- 等待走的时间
-    Util.WaitTime(2.14)
+    Util.WaitTime(3)
     -- 停下自动
     Util.Click(1125, 33)
 
@@ -135,7 +140,6 @@ function Task:Step9()
     Util.Click(72, 31)
     Util.WaitTime(0.5)
     self:AddStep()
-
 end
 
 function Task:Step10()

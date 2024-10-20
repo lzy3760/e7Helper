@@ -38,7 +38,7 @@ function Util.Swipe(from, to, time)
     print("滑动结果->>>" .. msg)
 end
 
--- 多点比色
+-- 多点比色,后面不要再用这个方法了,用Ext后缀的比较方便
 function Util.CompareColor(msg, sim)
     sim = sim or 0.9
     local result = cmpColorEx(msg, sim)
@@ -52,9 +52,8 @@ function Util.CompareColorByTable(table)
     return result > 0
 end
 
-function Util.FindColor(x1, y1, x2, y2, color, dir, sim)
-    sim = sim or 0.9
-    local ret, x, y = findColor(x1, y1, x2, y2, color, dir, sim)
+function Util.FindColor(table)
+    local ret, x, y = findColorT(table)
     if x ~= -1 and y ~= -1 then
         return true, x, y
     else
@@ -79,8 +78,8 @@ function Util.findPic(x1, y1, x2, y2, picName, sim)
         return
     end
 
-    sim = sim or 0.9
-    local ret, x, y = findPicEx(x1, y1, x2, y2, picName, 0.9)
+    sim = sim or 0.98
+    local ret, x, y = findPicEx(x1, y1, x2, y2, picName, sim)
     if x ~= -1 and y ~= -1 then
         return true, x, y
     else
@@ -98,10 +97,8 @@ function Util.findPicAndClick(x1, y1, x2, y2, picName)
 end
 
 -- 多颜色比对并点击对应区域
-function Util.FindMulColorAndClick(x1, y1, x2, y2, firstColor, offsetColor, dir, sim)
-    dir = dir or FindDir.LeftUpToRightDown
-    sim = sim or 0.9
-    local x, y = findMultiColor(x1, y1, x2, y2, firstColor, offsetColor, dir, sim)
+function Util.FindMulColorAndClick(table)
+    local x, y = findMultiColorT(table)
     if x ~= -1 and y ~= -1 then
         Util.Click(x, y)
         return true
@@ -110,28 +107,8 @@ function Util.FindMulColorAndClick(x1, y1, x2, y2, firstColor, offsetColor, dir,
     end
 end
 
--- 多颜色比对
-function Util.FindMulColor(x1, y1, x2, y2, firstColor, offsetColor, dir, sim)
-    dir = dir or FindDir.LeftUpToRightDown
-    sim = sim or 0.9
-    local x, y = findMultiColor(x1, y1, x2, y2, firstColor, offsetColor, dir, sim)
-    if x ~= -1 and y ~= -1 then
-        return true, x, y
-    else
-        return false
-    end
-end
-
 function Util.FindMulColorByTable(table)
-    local x1 = table[1]
-    local y1 = table[2]
-    local x2 = table[3]
-    local y2 = table[4]
-    local firstColor = table[5]
-    local offsetColor = table[6]
-    local dir = table[7] or FindDir.LeftUpToRightDown
-    local sim = table[8] or 0.9
-    local x, y = findMultiColor(x1, y1, x2, y2, firstColor, offsetColor, dir, sim)
+    local x, y = findMultiColorT(table)
     if x ~= -1 and y ~= -1 then
         return true, x, y
     else

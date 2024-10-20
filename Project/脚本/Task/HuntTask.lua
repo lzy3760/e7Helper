@@ -13,6 +13,16 @@ local SettlementStep = require("Step.SettlementStep")
 ---@type MulTapStep
 local MulTapStep = require("Step.MulTapStep")
 
+local BuyEnergy = true
+
+-- 不买体力退出
+local CancelColor = {316, 466, 503, 553, "312318", "45|23|765B2F|91|-2|322418", 0, 0.9}
+local CancelColor2 = {17, 10, 65, 56, "FFFFFF", "-18|13|FFFFFF|0|27|FFFFFF", 0, 0.9}
+local CancelHome = {196, 622, 341, 699, "FFFFFF", "15|-5|FFFFFF", 0, 0.9}
+
+-- 购买体力
+local BuyColor = {501, 469, 736, 553, "133319", "65|18|346628|133|-4|123018", 0, 0.9}
+
 -- 讨伐
 ---@class HuntTask:BaseTask
 local HuntTask = class("HuntTask", BaseTask)
@@ -77,7 +87,7 @@ function HuntTask:Enter()
     BattleEnterStep:SetTarget("讨伐")
     BattleReadyStep:SetTarget(false, false)
     -- 购买填这个坐标列表,不购买填另一个坐标列表
-    MulTapStep:SetPoint(true and {} or {})
+    MulTapStep:SetPoint(not BuyEnergy and {CancelColor, CancelColor2, CancelHome} or {BuyColor})
 end
 
 -- 需要测试下断网续连之后会不会自动进副本
@@ -161,7 +171,7 @@ function HuntTask:Step5()
         MulTapStep:Reset()
     else
         print("体力不足")
-        MulTapStep:Execute()
+        self:ChangeStep(9)
     end
 end
 
@@ -177,12 +187,11 @@ end
 function HuntTask:Step7()
     local result = CommonBattleStep:Execute()
     if result ~= nil then
-        self.curHuntCount = self.curHuntCount + 1
-        self:RefreshHUD()
-
         if not result then
             self:Retry()
         else
+            self.curHuntCount = self.curHuntCount + 1
+            self:RefreshHUD()
             self:AddStep()
         end
     end
@@ -199,12 +208,26 @@ function HuntTask:Step8()
             print("继续讨伐")
             self:Retry()
         else
+            Util.WaitTime(1)
             print("返回大厅")
             Util.Click(271, 656)
             self:Completed()
         end
     else
         print("未判断结果,等待讨伐结算")
+    end
+end
+
+-- 处理体力不够的情况
+function HuntTask:Step9()
+    -- 步骤走完了
+    local result = MulTapStep:Execute()
+    if result then
+        if not BuyEnergy then
+            self:Completed()
+        else
+            self:Retry()
+        end
     end
 end
 

@@ -13,6 +13,8 @@ local StoreBuyStep = require("Step.StoreBuyStep")
 ---@type CommonExitStep
 local CommonExitStep = require("Step.CommonExitStep")
 
+local StoreColor = {"30|32|FFFFFF,71|33|FFFFFF,89|35|FFFFFF,105|30|FFFFFF",0.9}
+
 ---@class MazeIntensifyTask:BaseTask 迷宫强化石
 local MazeTask = class("MazeIntensifyTask", BaseTask)
 
@@ -36,7 +38,8 @@ end
 function MazeTask:Enter()
     BattleEnterStep:SetTarget("迷宫")
     BattleReadyStep:SetTarget(nil, nil)
-    StoreBuyStep:SetTarget(BuyType.All, nil, Steps[2].mulColor)
+    StoreBuyStep:SetTarget(BuyType.All, nil, StoreColor)
+    StoreBuyStep:ResetBuyIndex()
     CommonExitStep:Reset()
 end
 
@@ -54,14 +57,6 @@ end
 -- 进大关
 -- todo 判断下第一关有没有给打通
 function MazeTask:Step2()
-    -- Util.WaitTime(1.5)
-    -- local config = Steps[2]
-    -- Util.Swipe(config.swipeFrom, config.swipeTo)
-    -- Util.WaitTime(1.5)
-    -- local clickPos = config.clickPos
-    -- Util.Click(clickPos[1], clickPos[2])
-    -- self:AddStep()
-
     local config = Steps[2]
     local suc, x, y = Util.FindMulColorByTable(config.mulColor)
     if suc then
