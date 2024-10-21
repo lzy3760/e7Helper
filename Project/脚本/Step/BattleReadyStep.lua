@@ -28,14 +28,16 @@ function BattleReadyStep:Execute()
     if self.quickBattle ~= nil then
         if GameUtil.IsQuickBattle() ~= self.quickBattle then
             GameUtil.SetQuickBattle()
+            return false
         end
     end
 
-    Util.WaitTime(0.1)
+    Util.WaitTime(0.2)
 
     if self.continueBattle ~= nil then
         if GameUtil.IsContinueBattle() ~= self.continueBattle then
             GameUtil.SetContinueBattle()
+            return false
         end
     end
 

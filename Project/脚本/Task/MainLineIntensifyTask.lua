@@ -115,6 +115,7 @@ function Task:Step7()
     -- 向左上角走
     Util.Click(131, 251)
     -- 等待走的时间
+    --或者3秒
     Util.WaitTime(3)
     -- 停下自动
     Util.Click(1125, 33)
