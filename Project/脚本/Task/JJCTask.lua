@@ -119,10 +119,13 @@ function Task:Step7()
     local config = Points[6]
     if Util.CompareColorByTable(config.inPanel) then
         Util.Click(1172, 659)
+        self:MarkOperation()
         log("点击确定了")
     else
-        self:ChangeStep(3)
-        Util.WaitTime(2)
+        if self:HasOperation() then
+            self:ChangeStep(3)
+            Util.WaitTime(2)
+        end
     end
 end
 

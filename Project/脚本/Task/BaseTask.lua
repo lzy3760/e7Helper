@@ -6,6 +6,7 @@ function Task:initialize(taskType)
     self.isFinish = false
     self.isPause = false
     self.curStep = 1
+    self.operation = false
 end
 
 function Task:Enter()
@@ -50,6 +51,7 @@ end
 
 function Task:AddStep()
     self.curStep = self.curStep + 1
+    self.operation = false
     log(self.taskType .. "进入第" .. self.curStep .. "步")
     Util.WaitTime(1)
 end
@@ -61,8 +63,17 @@ end
 -- 跳转到step
 function Task:ChangeStep(step)
     self.curStep = step
+    self.operation = false
     log(self.taskType .. "跳转到第" .. self.curStep .. "步")
     Util.WaitTime(1)
+end
+
+function Task:MarkOperation()
+    self.operation = true
+end
+
+function Task:HasOperation()
+    return self.operation
 end
 
 return Task
