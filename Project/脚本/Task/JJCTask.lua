@@ -74,8 +74,10 @@ function Task:Step3()
 
     if not Util.CompareColorByTable(config3.inNPCBattle) then
         Util.Click(1159, 212)
-        Util.WaitTime(0.5)
+        return
     end
+
+    --这里不能这么搞，得判断下有没有绿色的按钮可以点击。没有的话就选择NPC,有的话就点击挑战
 
     local clickPoints = {{558, 220}, {646, 656}}
     MulClickStep:Execute(clickPoints, 0.5)
