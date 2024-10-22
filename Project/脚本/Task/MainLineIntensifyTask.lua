@@ -83,12 +83,14 @@ end
 -- 进入选择辅助队友
 function Task:Step4()
     local config = Points[4]
-    if not Util.CompareColor(config.inPanel) then
-        return
+    if Util.CompareColor(config.inPanel) then
+        Util.Click(config.clickPos[1], config.clickPos[2])
+        self:MarkOperation()
+    else
+        if self:HasOperation() then
+            self:AddStep()
+        end
     end
-
-    Util.Click(config.clickPos[1], config.clickPos[2])
-    self:AddStep()
 end
 
 -- 战斗准备
@@ -115,7 +117,7 @@ function Task:Step7()
     -- 向左上角走
     Util.Click(131, 251)
     -- 等待走的时间
-    --或者3秒
+    -- 或者3秒
     Util.WaitTime(3)
     -- 停下自动
     Util.Click(1125, 33)

@@ -153,10 +153,6 @@ end
 
 -- 战斗准备界面
 function HuntTask:Step4()
-    if not BattleReadyStep:IsInPanel() then
-        return
-    end
-
     local result = BattleReadyStep:Execute()
     if result then
         self:AddStep()

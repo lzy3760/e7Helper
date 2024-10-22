@@ -133,18 +133,29 @@ end
 function Task:Step8()
     Util.WaitTime(0.2)
     local config = Points[7]
+
+    -- 没有弹出购买界面
     if not Util.CompareColorByTable(config.inPanel) then
-        self:ChangeStep(5)
-    else
-        if Util.CompareColorByTable(config.isNotEnough) then
-            -- 货币不够
-            Util.Click(532, 510)
+        if self.clickCancel then
             self:Completed()
-            -- 友情书签购买
-        else
-            Util.Click(733, 512)
+            self.clickCancel = nil
+        elseif self.clickBuy then
             self:ChangeStep(4)
+            self.clickBuy = nil
+        else
+            self:ChangeStep(5)
         end
+        return
+    end
+
+    -- 货币不够
+    if Util.CompareColorByTable(config.isNotEnough) then
+        Util.Click(532, 510)
+        self.clickCancel = true
+        --点击购买货币
+    else
+        Util.Click(733, 512)
+        self.clickBuy = true
     end
 end
 

@@ -22,12 +22,18 @@ end
 
 function BattleReadyStep:Execute()
     if not Util.CompareColor(inPanel) then
-        return false
+        if self.click then
+            self.click = nil
+            return true
+        else
+            return false
+        end
     end
 
     if self.quickBattle ~= nil then
         if GameUtil.IsQuickBattle() ~= self.quickBattle then
             GameUtil.SetQuickBattle()
+            log("设置快速挑战")
             return false
         end
     end
@@ -37,13 +43,14 @@ function BattleReadyStep:Execute()
     if self.continueBattle ~= nil then
         if GameUtil.IsContinueBattle() ~= self.continueBattle then
             GameUtil.SetContinueBattle()
+            log("设置连续挑战")
             return false
         end
     end
 
-    Util.WaitTime(0.5)
     Util.Click(click.x, click.y)
-    return true
+    self.click = true
+    return false
 end
 
 function BattleReadyStep:Reset()

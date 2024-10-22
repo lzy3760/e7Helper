@@ -111,6 +111,15 @@ function GameUtil.HasMazeDir(mazeDir)
     return suc, x, y
 end
 
+function GameUtil.ClickMazeDir(mazedir)
+    local suc, x, y = GameUtil.HasMazeDir(mazedir)
+    if suc then
+        Util.Click(x, y)
+    else
+        log("没有获取到对应的迷宫方向脚本")
+    end
+end
+
 local DecorTable = {"602|629|FFFFFF,614|629|FFFFFF,628|629|FFFFFF,595|669|C6C6C6,619|669|C6C6C6", 0.9}
 -- {576,477,610,512,"201B1A","16|26|DE7152",0,0.9}
 -- 1-->普通状态
