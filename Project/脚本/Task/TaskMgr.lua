@@ -21,7 +21,8 @@ local TaskType = {
     ["讨伐"] = require("Task.HuntTask"),
     ["迷宫强化石"] = require("Task.MazeIntensifyTask"),
     ["主线强化石"] = require("Task.MainLineIntensifyTask"),
-    ["竞技场"] = require("Task.JJCTask")
+    ["竞技场"] = require("Task.JJCTask"),
+    ["一票木龙"] = require("Task.OneMazeTask")
 }
 
 local InternetState = {
@@ -65,8 +66,8 @@ function TaskMgr:Update()
 
     local internetState = self:GetInternatState()
     if internetState ~= InternetState.Right then
-        --print("网络错误，点击屏幕")
-        --Util.Click(627, 348)
+        -- print("网络错误，点击屏幕")
+        -- Util.Click(627, 348)
         return
     end
 

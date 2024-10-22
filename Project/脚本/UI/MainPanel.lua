@@ -6,10 +6,11 @@ local Funcs = {
     ["迷宫强化石"] = "MazeIntensify",
     ["主线强化石"] = "MainLineIntensify",
     ["刷书签"] = "RandomStore",
-    ["竞技场"] = "JJC"
+    ["竞技场"] = "JJC",
+    ["一票木龙"] = "OneMaze"
 }
 
-local FuncNames = {"讨伐", "迷宫强化石", "主线强化石", "刷书签", "竞技场"}
+local FuncNames = {"讨伐", "迷宫强化石", "主线强化石", "刷书签", "竞技场", "一票木龙"}
 
 local Settings = {
     ["讨伐设置"] = "HuntSetting"
@@ -37,6 +38,10 @@ end
 
 function MainPanelJJC()
     Panel:AddTask("竞技场")
+end
+
+function MainPanelOneMaze()
+    Panel:AddTask("一票木龙")
 end
 
 function MainPanelHuntSetting()
