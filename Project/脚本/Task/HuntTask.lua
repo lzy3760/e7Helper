@@ -73,6 +73,7 @@ function HuntTask:initialize()
     self.huntType = huntSet.huntType
     self.huntCount = huntSet.huntCount
     self.curHuntCount = 0
+    self.swipe = false
 end
 
 function HuntTask:RefreshHUD()
@@ -122,17 +123,21 @@ function HuntTask:Step2()
     local config = Steps[2]
     local inPanel = config.inPanel
     if not Util.CompareColor(inPanel) then
+        if self:HasOperation() then
+            self:AddStep()
+        end
         return
     end
 
-    if self.huntType > 3 then
+    if self.huntType > 3 and not self.swipe then
+        self.swipe = true
         Util.Swipe(config.swipeFrom, config.swipeTo, 0.5)
         Util.WaitTime(1.5)
     end
 
     local click = config.points[self.huntType]
     Util.Click(click[1], click[2])
-    self:AddStep()
+    self:MarkOperation()
 end
 
 -- 选择挑战难度
@@ -143,12 +148,15 @@ function HuntTask:Step3()
     local config = Steps[3]
 
     if not Util.CompareColor(config.inPanel) then
+        if self:HasOperation() then
+            self:AddStep()
+        end
         return
     end
 
     local click = config.click
     Util.Click(click[1], click[2])
-    self:AddStep()
+    self:MarkOperation()
 end
 
 -- 战斗准备界面
@@ -205,9 +213,7 @@ function HuntTask:Step8()
             self:Retry()
         else
             Util.WaitTime(1)
-            print("返回大厅")
-            Util.Click(271, 656)
-            self:Completed()
+            self:ChangeStep(10)
         end
     else
         print("未判断结果,等待讨伐结算")
@@ -223,6 +229,18 @@ function HuntTask:Step9()
             self:Completed()
         else
             self:Retry()
+        end
+    end
+end
+
+--返回大厅
+function HuntTask:Step10()
+    if SettlementStep:IsInRetryPanel() then
+        Util.Click(271, 656)
+        self:MarkOperation()
+    else
+        if self:HasOperation() then
+            self:Completed()
         end
     end
 end

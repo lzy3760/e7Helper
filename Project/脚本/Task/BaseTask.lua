@@ -37,18 +37,6 @@ function Task:Resume()
     self.isPause = false
 end
 
--- 一直点击直到满足什么条件
----@param internal number 点击间隔
----@param func function 回调
-function Task:ClickUtil(x, y, internal, checkFunc, func)
-    if self.loopClick then
-        logError("重复点击检测到了冲突!!")
-    end
-
-    self.loopClick = true
-    self.clickInternal = internal
-end
-
 function Task:AddStep()
     self.curStep = self.curStep + 1
     self.operation = false

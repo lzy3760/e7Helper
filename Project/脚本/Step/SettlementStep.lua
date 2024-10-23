@@ -1,5 +1,6 @@
----@class SettlementStep 通用的结算界面
-local SettlementStep = {}
+local BaseStep = require("Step.BaseStep")
+---@class SettlementStep:BaseStep 通用的结算界面
+local SettlementStep = class("SettlementStep", BaseStep)
 
 local confirmPanel = "1009|679|654E2A,1164|680|346728"
 local confirmBtn = {
@@ -7,7 +8,7 @@ local confirmBtn = {
     y = 658
 }
 
-local retryPanel = "116|683|795D30,271|681|71552D,1011|664|E3D7C9,1131|680|6D532D"
+local retryPanel = "116|683|795D30,271|681|71552D"
 local retryBtn = {
     x = 1120,
     y = 662
@@ -30,11 +31,16 @@ function SettlementStep:Execute()
     if self.state == State.Confirm then
         if Util.CompareColor(confirmPanel) then
             Util.Click(confirmBtn.x, confirmBtn.y)
-            if self.hasRetry then
-                self.state = State.Retry
-                Util.WaitTime(1)
-            else
-                return true
+            self:MakeOperation()
+        else
+            if self:HasOperation() then
+                if self.hasRetry then
+                    self.state = State.Retry
+                    self:ResetOperation()
+                    Util.WaitTime(1)
+                else
+                    return true
+                end
             end
         end
     end
@@ -42,10 +48,20 @@ function SettlementStep:Execute()
     if self.state == State.Retry then
         if Util.CompareColor(retryPanel) then
             Util.Click(retryBtn.x, retryBtn.y)
-            self.state = State.Confirm
-            return true
+            self:MakeOperation()
+        else
+            if self:HasOperation() then
+                self.state = State.Confirm
+                self:ResetOperation()
+                return true
+            end
         end
     end
+end
+
+-- 是否在重开的界面中
+function SettlementStep:IsInRetryPanel()
+    return Util.CompareColor(retryPanel)
 end
 
 function SettlementStep:Reset()

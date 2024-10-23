@@ -1,5 +1,6 @@
----@class BattleReadyStep 战斗前准备,比如关闭快速战斗,关闭连续战斗
-local BattleReadyStep = {}
+local BaseStep = require("Step.BaseStep")
+---@class BattleReadyStep:BaseStep 战斗前准备,比如关闭快速战斗,关闭连续战斗
+local BattleReadyStep = class("BattleReadyStep",BaseStep)
 
 local inPanel = "17|665|0D1E3B,120|663|0D1E3B"
 local click = {
@@ -22,8 +23,8 @@ end
 
 function BattleReadyStep:Execute()
     if not Util.CompareColor(inPanel) then
-        if self.click then
-            self.click = nil
+        if self:HasOperation() then
+            self:ResetOperation()
             return true
         else
             return false
@@ -49,7 +50,7 @@ function BattleReadyStep:Execute()
     end
 
     Util.Click(click.x, click.y)
-    self.click = true
+    self:MakeOperation()
     return false
 end
 

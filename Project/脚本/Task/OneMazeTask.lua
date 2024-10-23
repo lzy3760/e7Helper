@@ -127,12 +127,11 @@ local Configs =
     { MazeDir.None, Type.Portal }, --Return
 }
 
-
-
 local BaseTask = require("Task.BaseTask")
----@class OneMazeTask:BaseTask ?????
+---@class OneMazeTask:BaseTask
 local OneMazeTask = class("OneMazeTask", BaseTask)
 
+local BattleAutoStep = require("Step.BattleAutoStep")
 local MulClickStep = require("Step.MulClickStep")
 
 function OneMazeTask:Enter()
@@ -147,24 +146,33 @@ function OneMazeTask:Update()
 end
 
 function OneMazeTask:Step1()
-    for i = 0, 35 do
+    if self.state == MazeDir.N then
         Util.WaitTime(1)
         local suc = GameUtil.ClickMazeDir(MazeDir.N)
         if suc then
-           log("µã»÷N") 
+            self.state = MazeDir.S
         end
-
+    elseif self.state == MazeDir.S then
         Util.WaitTime(1)
-        suc = GameUtil.ClickMazeDir(MazeDir.S)
+        local suc = GameUtil.ClickMazeDir(MazeDir.S)
         if suc then
-            log("µã»÷S") 
+            self.state = MazeDir.N
+            self.curConsumeCount = self.curConsumeCount + 1
         end
     end
 
-    self:AddStep()
+    if self.curConsumeCount >= self.consumeCount then
+        self:AddStep()
+    end
 end
 
 function OneMazeTask:Step2()
+    if BattleAutoStep:Execute() then
+        self:AddStep()
+    end
+end
+
+function OneMazeTask:Step3()
     if not GameUtil.IsInMazeSelect() then
         if self:CheckMazeStone() then
             Util.Click()
@@ -173,33 +181,35 @@ function OneMazeTask:Step2()
     end
 
     local stepCfg = Configs[self.step]
+    local suc = false
     if #stepCfg == 1 then
-        self:NormalClick(stepCfg)
+        suc = self:NormalClick(stepCfg)
     elseif #stepCfg == 2 then
-        self:ClickProtal(stepCfg)
+        suc = self:ClickProtal(stepCfg)
     elseif #stepCfg == 3 then
-        self:JumpArea(stepCfg)
+        suc = self:JumpArea(stepCfg)
     end
 
-    self.step = self.step + 1
-    if self.step > #Configs then
-        self:Completed()
+    if suc then
+        self.step = self.step + 1
+        if self.step > #Configs then
+            self:Completed()
+        end
     end
 end
 
--- ??????
 function OneMazeTask:NormalClick(cfg)
     local dir = cfg[1]
-    GameUtil.ClickMazeDir(dir)
+    local suc = GameUtil.ClickMazeDir(dir)
+    return suc
 end
 
--- ?????????
 function OneMazeTask:ClickProtal(cfg)
     local points = { { 647, 391 }, { 744, 478 } }
     MulClickStep:Execute(points, 0.8)
+    return true
 end
 
--- ??????????
 function OneMazeTask:JumpArea(cfg)
     local points = { {}, {} }
     local jumpPos = cfg[3]
@@ -207,7 +217,6 @@ function OneMazeTask:JumpArea(cfg)
     MulClickStep:Execute(points, 0.5)
 end
 
---?????????
 function OneMazeTask:CheckMazeStone()
     return false
 end

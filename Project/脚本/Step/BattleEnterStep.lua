@@ -14,8 +14,9 @@ local State = {
     InBattle = 2
 }
 
----@class BattleEnterStep 进入Battle战斗入口的Step
-local Step = {}
+local BaseStep = require("Step.BaseStep")
+---@class BattleEnterStep:BaseStep 进入Battle战斗入口的Step
+local Step = class("BattleEnterStep", BaseStep)
 
 ---@param battleType string Battle类型
 ---@param battlePos number Battle坐标
@@ -29,9 +30,13 @@ function Step:Execute()
     if self.state == State.InHome then
         if GameUtil.IsInHome() then
             Util.Click(EnterPos[1], EnterPos[2])
+            self:MakeOperation()
         else
-            self.state = State.InBattle
-            Util.WaitTime(1)
+            if self:HasOperation() then
+                self.state = State.InBattle
+                Util.WaitTime(1)
+                self:ResetOperation()
+            end
         end
     elseif self.state == State.InBattle then
         if Util.CompareColor(inBattlePanel) then
@@ -43,9 +48,13 @@ function Step:Execute()
             local clickPos = BattlePos[self.battlePos]
             if clickPos then
                 Util.Click(clickPos[1], clickPos[2])
+                self:MakeOperation()
             end
         else
-            self.complete = true
+            if self:HasOperation() then
+                self.complete = true
+                self:ResetOperation()
+            end
         end
     end
 end

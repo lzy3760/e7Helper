@@ -50,19 +50,25 @@ function Task:Step1()
     local config = Points[1]
     if GameUtil.IsInHome() then
         Util.Click(config.clickPos[1], config.clickPos[2])
+        self:MarkOperation()
     else
-        self:AddStep()
+        if self:HasOperation() then
+            self:AddStep()
+        end
     end
 end
 
 function Task:Step2()
     local config = Points[2]
     if not Util.CompareColorByTable(config.inPanel) then
+        if self:HasOperation() then
+            self:AddStep() 
+        end
         return
     end
 
     Util.Click(config.clickPos[1], config.clickPos[2])
-    self:AddStep()
+    self:MarkOperation()
 end
 
 -- 选择NPC并且点击进入战斗
@@ -78,7 +84,6 @@ function Task:Step3()
     end
 
     --这里不能这么搞，得判断下有没有绿色的按钮可以点击。没有的话就选择NPC,有的话就点击挑战
-
     local clickPoints = {{558, 220}, {646, 656}}
     MulClickStep:Execute(clickPoints, 0.5)
     self:AddStep()
@@ -87,12 +92,14 @@ end
 -- 点击进入战斗
 function Task:Step4()
     local config = Points[4]
-    if not Util.CompareColorByTable(config.inPanel) then
-        return
+    if Util.CompareColorByTable(config.inPanel) then
+        Util.Click(874, 657)
+        self:MarkOperation()
+    else
+        if self:HasOperation() then
+            self:ChangeStep(8)
+        end
     end
-
-    Util.Click(874, 657)
-    self:ChangeStep(8)
 end
 
 -- 判断在战斗中打开自动战斗

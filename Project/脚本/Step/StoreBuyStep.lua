@@ -1,5 +1,6 @@
----@class StoreBuyStep 商店购买步骤
-local StoreBuyStep = {}
+local BaseStep = require("Step.BaseStep")
+---@class StoreBuyStep:BaseStep 商店购买步骤
+local StoreBuyStep = class("StoreBuyStep", BaseStep)
 
 local InStore
 
@@ -126,21 +127,28 @@ function StoreBuyStep:OnClickBuy()
     if Util.CompareColorByTable(InStore) then
         log("点击购买物品")
         Util.Click(buyPos[1], buyPos[2])
+        self:MakeOperation()
     else
-        self.state = State.ConfirmBuy
+        if self:HasOperation() then
+            self.state = State.ConfirmBuy
+            self:ResetOperation()
+        end
     end
 end
 
 function StoreBuyStep:OnConfirmBuy()
     if Util.CompareColorByTable(InConfirmColor) then
         Util.Click(722, 505)
+        self:MakeOperation()
     else
-        self.state = State.CheckGood
-        if self.resType and self.buyFunc then
-            self.buyFunc(self.resType)
+        if self:HasOperation() then
+            self.state = State.CheckGood
+            if self.resType and self.buyFunc then
+                self.buyFunc(self.resType)
+            end
+            -- 购买成功后等0.5s
+            Util.WaitTime(0.5)
         end
-        -- 购买成功后等0.5s
-        Util.WaitTime(0.5)
     end
 end
 
@@ -158,7 +166,7 @@ function StoreBuyStep:CanBuyStone(index)
     local config = Goods[index]
     local size = config.size
     for _, stone in pairs(IntensifyStone) do
-        local suc, x, y = Util.findPic(size[1], size[2], size[3], size[4], stone.picName)
+        local suc, x, y = Util.findPic(size[1], size[2], size[3], size[4], stone.picName, 0.9)
         if suc then
             print("购买物品是" .. stone.picName)
             print(tostring(x) .. "---" .. tostring(y))
