@@ -8,6 +8,7 @@ local confirmBtn = {
     y = 658
 }
 
+--这里数据好像有问题
 local retryPanel = "116|683|795D30,271|681|71552D"
 local retryBtn = {
     x = 1120,
@@ -35,9 +36,9 @@ function SettlementStep:Execute()
         else
             if self:HasOperation() then
                 if self.hasRetry then
+                    log("切换到Retry")
                     self.state = State.Retry
                     self:ResetOperation()
-                    Util.WaitTime(1)
                 else
                     return true
                 end
@@ -47,11 +48,12 @@ function SettlementStep:Execute()
 
     if self.state == State.Retry then
         if Util.CompareColor(retryPanel) then
+            log("点击RetryBtn")
             Util.Click(retryBtn.x, retryBtn.y)
             self:MakeOperation()
         else
             if self:HasOperation() then
-                self.state = State.Confirm
+                log("确认Hunt点击")
                 self:ResetOperation()
                 return true
             end

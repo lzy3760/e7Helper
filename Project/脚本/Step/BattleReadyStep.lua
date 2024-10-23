@@ -24,9 +24,11 @@ end
 function BattleReadyStep:Execute()
     if not Util.CompareColor(inPanel) then
         if self:HasOperation() then
+            log("讨伐点击")
             self:ResetOperation()
             return true
         else
+            log("讨伐没有点击")
             return false
         end
     end
@@ -51,6 +53,7 @@ function BattleReadyStep:Execute()
 
     Util.Click(click.x, click.y)
     self:MakeOperation()
+    log("讨伐标记点击")
     return false
 end
 

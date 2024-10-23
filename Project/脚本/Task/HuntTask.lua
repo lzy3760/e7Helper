@@ -146,17 +146,15 @@ function HuntTask:Step3()
     Util.WaitTime(0.5)
 
     local config = Steps[3]
-
-    if not Util.CompareColor(config.inPanel) then
+    if Util.CompareColor(config.inPanel) then
+        local click = config.click
+        Util.Click(click[1], click[2])
+        self:MarkOperation()
+    else
         if self:HasOperation() then
             self:AddStep()
         end
-        return
     end
-
-    local click = config.click
-    Util.Click(click[1], click[2])
-    self:MarkOperation()
 end
 
 -- 战斗准备界面
@@ -207,16 +205,14 @@ function HuntTask:Step8()
     SettlementStep:SetTarget(isContinue)
     local result = SettlementStep:Execute()
     if result then
-        print("进入结果判断")
+        log("进入结果判断")
         if isContinue then
-            print("继续讨伐")
+            log("继续讨伐")
             self:Retry()
         else
             Util.WaitTime(1)
             self:ChangeStep(10)
         end
-    else
-        print("未判断结果,等待讨伐结算")
     end
 end
 
@@ -233,7 +229,7 @@ function HuntTask:Step9()
     end
 end
 
---返回大厅
+-- 返回大厅
 function HuntTask:Step10()
     if SettlementStep:IsInRetryPanel() then
         Util.Click(271, 656)

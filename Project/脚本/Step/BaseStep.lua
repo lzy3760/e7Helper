@@ -10,7 +10,7 @@ function BaseStep:MakeOperation()
 end
 
 function BaseStep:HasOperation()
-    return self.operation
+    return self.operation and self.operation == true
 end
 
 return BaseStep

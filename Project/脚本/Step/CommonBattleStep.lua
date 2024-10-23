@@ -33,7 +33,6 @@ function CommonBattleStep:Execute()
     end
 
     if not self.state then
-        log("未获取到结算状态结果")
         return
     end
 
