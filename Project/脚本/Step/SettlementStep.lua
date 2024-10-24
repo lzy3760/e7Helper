@@ -8,8 +8,8 @@ local confirmBtn = {
     y = 658
 }
 
---这里数据好像有问题
-local retryPanel = "116|683|795D30,271|681|71552D"
+-- 这里数据好像有问题
+local retryPanel = {"52|659|AB8759,256|658|FFFFFF,280|658|FFFFFF", 0.9}
 local retryBtn = {
     x = 1120,
     y = 662
@@ -23,12 +23,15 @@ local State = {
 }
 
 ---@param hasRetry boolean 是否有重开这个步骤
-function SettlementStep:SetTarget(hasRetry)
-    self:Reset()
+function SettlementStep:SetRetry(hasRetry)
     self.hasRetry = hasRetry
 end
 
 function SettlementStep:Execute()
+    if not self.state then
+        self.state = State.Confirm 
+    end
+
     if self.state == State.Confirm then
         if Util.CompareColor(confirmPanel) then
             Util.Click(confirmBtn.x, confirmBtn.y)
@@ -47,14 +50,17 @@ function SettlementStep:Execute()
     end
 
     if self.state == State.Retry then
-        if Util.CompareColor(retryPanel) then
+        log("检查RetryBtn")
+        if Util.CompareColorByTable(retryPanel) then
             log("点击RetryBtn")
             Util.Click(retryBtn.x, retryBtn.y)
             self:MakeOperation()
         else
+            log("检查是否操作了")
             if self:HasOperation() then
                 log("确认Hunt点击")
                 self:ResetOperation()
+                self.state = nil
                 return true
             end
         end
@@ -63,12 +69,7 @@ end
 
 -- 是否在重开的界面中
 function SettlementStep:IsInRetryPanel()
-    return Util.CompareColor(retryPanel)
-end
-
-function SettlementStep:Reset()
-    self.hasRetry = false
-    self.state = State.Confirm
+    return Util.CompareColorByTable(retryPanel)
 end
 
 return SettlementStep

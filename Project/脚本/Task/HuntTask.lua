@@ -201,8 +201,9 @@ end
 
 -- 胜利后的跳转
 function HuntTask:Step8()
+    log("第八步判断")
     local isContinue = self.curHuntCount < self.huntCount
-    SettlementStep:SetTarget(isContinue)
+    SettlementStep:SetRetry(isContinue)
     local result = SettlementStep:Execute()
     if result then
         log("进入结果判断")
