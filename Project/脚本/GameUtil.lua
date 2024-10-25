@@ -6,30 +6,28 @@ function GameUtil.IsInHome()
     return Util.CompareColor(HomeColor)
 end
 
-local QuickBattle = "1221|639|E6DFED,1259|681|E6DFED"
+local QuickBattle = {1202,618,1269,695,"E9E6ED","36|-1|E8E6ED|-2|43|E8E6ED|35|43|E9E6ED",0,0.9}
 
 -- 是否关闭快速挑战
 function GameUtil.IsQuickBattle()
-    return Util.CompareColor(QuickBattle)
-    -- todo 修改为findColor
+    return Util.FindMulColorByTable(QuickBattle)
 end
 
 -- 设置快速挑战
 function GameUtil.SetQuickBattle()
-    Util.Click(1233, 664)
+    Util.Click(1235, 660)
 end
 
-local ContinueBattle = {564, 538, 602, 574, "60BE01", 0, 0.9}
+local ContinueBattle = {567,536,602,570,"61C100","7|6|61C100|17|-3|60C100",0,0.9}
 -- 连续挑战
 function GameUtil.IsContinueBattle()
-    -- return Util.CompareColor(ContinueBattle)
-    local suc, x, y = Util.FindColor(ContinueBattle)
+    local suc, x, y = Util.FindMulColorByTable(ContinueBattle)
     return suc
 end
 
 -- 设置连续挑战
 function GameUtil.SetContinueBattle()
-    Util.Click(582, 559)
+    Util.Click(584, 553)
 end
 
 -- 这里采对号上白色,蓝色背景是半透图,会受游戏背景的影响

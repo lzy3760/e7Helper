@@ -2,6 +2,7 @@ local BaseTask = require("Task.BaseTask")
 ---@class HomeTask:BaseTask 该类负责回退到Home
 local HomeTask = class("HomeTask", BaseTask)
 
+---@type MulTapStep
 local MulTapStep = require("Step.MulTapStep")
 
 local Point1 = {1219,31,1265,52,"4487EB","18|0|4487EB",0,0.9}

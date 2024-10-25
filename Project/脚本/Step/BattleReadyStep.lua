@@ -2,7 +2,7 @@ local BaseStep = require("Step.BaseStep")
 ---@class BattleReadyStep:BaseStep 战斗前准备,比如关闭快速战斗,关闭连续战斗
 local BattleReadyStep = class("BattleReadyStep", BaseStep)
 
-local inPanel = {"731|269|514446,734|398|5C4446",0.8}
+local inPanel = {"248|23|FFFFFF", 0.9}
 local click = {
     x = 1071,
     y = 661

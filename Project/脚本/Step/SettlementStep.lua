@@ -50,19 +50,27 @@ function SettlementStep:Execute()
     end
 
     if self.state == State.Retry then
-        log("检查RetryBtn")
+        -- log("检查RetryBtn")
+        -- if Util.CompareColorByTable(retryPanel) then
+        --     log("点击RetryBtn")
+        --     Util.Click(retryBtn.x, retryBtn.y)
+        --     self:MakeOperation()
+        -- else
+        --     log("检查是否操作了")
+        --     if self:HasOperation() then
+        --         log("确认Hunt点击")
+        --         self:ResetOperation()
+        --         self.state = nil
+        --         return true
+        --     end
+        -- end
+        
+        -- 这里点快了会直接进游戏，好奇葩的游戏UI
         if Util.CompareColorByTable(retryPanel) then
             log("点击RetryBtn")
             Util.Click(retryBtn.x, retryBtn.y)
-            self:MakeOperation()
-        else
-            log("检查是否操作了")
-            if self:HasOperation() then
-                log("确认Hunt点击")
-                self:ResetOperation()
-                self.state = nil
-                return true
-            end
+            self.state = nil
+            return true
         end
     end
 end

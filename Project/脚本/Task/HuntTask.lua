@@ -146,14 +146,16 @@ function HuntTask:Step3()
     Util.WaitTime(0.5)
 
     local config = Steps[3]
+    --这里点快了会直接进游戏，好奇葩的游戏UI
     if Util.CompareColor(config.inPanel) then
         local click = config.click
         Util.Click(click[1], click[2])
-        self:MarkOperation()
-    else
-        if self:HasOperation() then
-            self:AddStep()
-        end
+        self:AddStep()
+        -- self:MarkOperation()
+    -- else
+    --     if self:HasOperation() then
+    --         self:AddStep()
+    --     end
     end
 end
 

@@ -47,14 +47,20 @@ function CommonBattleStep:Execute()
             end
         end
     elseif self.state == State.Fail then
+        -- if Util.CompareColor(failPanel) then
+        --     Util.Click(failClick.x, failClick.y)
+        --     self:MakeOperation()
+        -- else
+        --     if self:HasOperation() then
+        --         self.state = nil
+        --         return false
+        --     end
+        -- end
+
         if Util.CompareColor(failPanel) then
             Util.Click(failClick.x, failClick.y)
-            self:MakeOperation()
-        else
-            if self:HasOperation() then
-                self.state = nil
-                return false
-            end
+            self.state = nil
+            return false
         end
     end
 end

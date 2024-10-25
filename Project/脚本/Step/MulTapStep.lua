@@ -1,5 +1,6 @@
----@class MulTapStep 多重点击Step,识别到对应颜色然后才点击
-local Step = {}
+local BaseStep = require("Step.BaseStep")
+---@class MulTapStep:BaseStep 多重点击Step,识别到对应颜色然后才点击
+local Step = class("MulTapStep", BaseStep)
 
 -- example
 local ExamplePoints = {{"x1,x2,y1,y2,color,offsetColor"}}
@@ -22,11 +23,16 @@ function Step:Execute()
     end
 
     local point = self.points[self.step]
-    local clickResult = Util.FindMulColorAndClick(point)
-
-    if clickResult then
-        self.step = self.step + 1
-        Util.WaitTime(self.internal)
+    local result, x, y = Util.FindMulColorByTable(point)
+    if result then
+        Util.Click(x, y)
+        self:MakeOperation()
+    else
+        if self:HasOperation() then
+            self:ResetOperation()
+            self.step = self.step + 1
+            Util.WaitTime(self.internal)
+        end
     end
 
     return false
