@@ -49,8 +49,11 @@ end
 function Task:Step1()
     if GameUtil.IsInHome() then
         Util.Click(1212, 637)
+        self:MarkOperation()
     else
-        self:AddStep()
+        if self:HasOperation() then
+            self:AddStep()
+        end
     end
 end
 
@@ -69,6 +72,7 @@ function Task:Step2()
 end
 
 -- 滑动选择强化石关卡
+-- TODO 点击操作判断
 function Task:Step3()
     local config = Points[3]
     for i = 1, 3 do
@@ -139,6 +143,7 @@ function Task:Step8()
     end
 end
 
+--TODO 增加点击操作判断,判断能不能点击左上角
 function Task:Step9()
     Util.Click(72, 31)
     Util.WaitTime(0.5)

@@ -13,7 +13,7 @@ local StoreBuyStep = require("Step.StoreBuyStep")
 ---@type CommonExitStep
 local CommonExitStep = require("Step.CommonExitStep")
 
-local StoreColor = {"30|32|FFFFFF,71|33|FFFFFF,89|35|FFFFFF,105|30|FFFFFF",0.9}
+local StoreColor = {"30|32|FFFFFF,71|33|FFFFFF,89|35|FFFFFF,105|30|FFFFFF", 0.9}
 
 ---@class MazeIntensifyTask:BaseTask 迷宫强化石
 local MazeTask = class("MazeIntensifyTask", BaseTask)
@@ -55,28 +55,28 @@ function MazeTask:Step1()
 end
 
 -- 进大关
--- todo 判断下第一关有没有给打通
+-- TODO 增加点击操作判断
 function MazeTask:Step2()
     local config = Steps[2]
     local suc, x, y = Util.FindMulColorByTable(config.mulColor)
-    if suc then
-        Util.Click(x, y)
-        self:AddStep()
-        return
-    else
+    if not suc then
         Util.Swipe(config.swipeFrom, config.swipeTo)
         Util.WaitTime(1.5)
-        suc, x, y = Util.FindMulColorByTable(config.mulColor)
-        if not suc then
-            logError("没有找到强化石迷宫入口")
-        else
-            Util.Click(x, y)
+        return
+    end
+
+    if Util.CompareColorByTable(config.inPanel) then
+        Util.Click(x, y)
+        self:MarkOperation()
+    else
+        if self:HasOperation() then
             self:AddStep()
         end
     end
 end
 
 -- 选小关
+-- TODO 后续判断考虑下,有问题再判断
 function MazeTask:Step3()
     Util.WaitTime(1.5)
     local config = Steps[3]
@@ -113,19 +113,16 @@ function MazeTask:Step6()
     self:AddStep()
 end
 
+-- 打开商店
 function MazeTask:Step7()
-    if not GameUtil.IsInMazeSelect() then
-        return
-    end
-
-    Util.WaitTime(1.5)
-
-    for i = 1, 4 do
+    if GameUtil.IsInMazeSelect() then
         Util.Click(645, 360)
-        Util.WaitTime(0.3)
+        self:MarkOperation()
+    else
+        if self:HasOperation() then
+            self:AddStep()
+        end
     end
-
-    self:AddStep()
 end
 
 function MazeTask:Step8()
@@ -136,6 +133,7 @@ function MazeTask:Step8()
     end
 end
 
+--TODO 退出商店判断
 function MazeTask:Step9()
     Util.Click(72, 31)
     Util.WaitTime(1)
