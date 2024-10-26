@@ -31,7 +31,7 @@ function Task:Enter()
     self.hudId = createHUD()
     self:RefreshHUD()
     StoreBuyStep:SetTarget(BuyType.Res, function(type)
-        log("购买物品"..tostring(type))
+        log("购买物品" .. tostring(type))
         if type == 1 then
             self.blueRes = self.blueRes + 1
         elseif type == 2 then
@@ -47,16 +47,20 @@ function Task:Update()
 end
 
 function Task:Step1()
-    local state = GameUtil.GetHomeState()
-    if state == RoomState.NormalState then
-        Util.Click(567, 186)
+    if GameUtil.IsInHome() then
+        local state = GameUtil.GetHomeState()
+        if state == RoomState.NormalState then
+            Util.Click(567, 186)
+        else
+            Util.Click(55, 164)
+        end
+        self:MarkOperation()
     else
-        Util.Click(55, 164)
+        if self:HasOperation() then
+            StoreBuyStep:ResetBuyIndex()
+            self:ChangeStep(4)
+        end
     end
-
-    Util.WaitTime(1)
-    StoreBuyStep:ResetBuyIndex()
-    self:ChangeStep(4)
 end
 
 function Task:Step2()
@@ -66,8 +70,11 @@ function Task:Step2()
 
     if Util.FindMulColorByTable(storePanel) then
         Util.Click(220, 660)
+        self:MarkOperation()
     else
-        self:AddStep()
+        if self:HasOperation() then
+            self:AddStep()
+        end
     end
 end
 
@@ -77,9 +84,12 @@ function Task:Step3()
 
     if Util.FindMulColorByTable(switchPanel) then
         Util.Click(743, 442)
+        self:MarkOperation()
     else
-        StoreBuyStep:ResetBuyIndex()
-        self:AddStep()
+        if self:HasOperation() then
+            StoreBuyStep:ResetBuyIndex()
+            self:AddStep()
+        end
     end
 end
 
