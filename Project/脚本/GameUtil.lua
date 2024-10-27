@@ -6,7 +6,7 @@ function GameUtil.IsInHome()
     return Util.CompareColor(HomeColor)
 end
 
-local QuickBattle = {1202,618,1269,695,"E9E6ED","36|-1|E8E6ED|-2|43|E8E6ED|35|43|E9E6ED",0,0.9}
+local QuickBattle = {1202, 618, 1269, 695, "E9E6ED", "36|-1|E8E6ED|-2|43|E8E6ED|35|43|E9E6ED", 0, 0.9}
 
 -- 是否关闭快速挑战
 function GameUtil.IsQuickBattle()
@@ -18,7 +18,7 @@ function GameUtil.SetQuickBattle()
     Util.Click(1235, 660)
 end
 
-local ContinueBattle = {567,536,602,570,"61C100","7|6|61C100|17|-3|60C100",0,0.9}
+local ContinueBattle = {567, 536, 602, 570, "61C100", "7|6|61C100|17|-3|60C100", 0, 0.9}
 -- 连续挑战
 function GameUtil.IsContinueBattle()
     local suc, x, y = Util.FindMulColorByTable(ContinueBattle)
@@ -87,9 +87,10 @@ function GameUtil.IsInMazeSelect()
 end
 
 -- 有无迷宫方向
-function GameUtil.HasMazeDir(mazeDir)
+function GameUtil.HasMazeDir(mazeDir, sim)
     local size
     local picName
+    local sim = sim or 0.8
     if mazeDir == MazeDir.N then
         size = {13, 133, 252, 334}
         picName = "N.png"
@@ -104,18 +105,20 @@ function GameUtil.HasMazeDir(mazeDir)
         picName = "S.png"
     end
 
-    local ret, x, y = findPicEx(size[1], size[2], size[3], size[4], picName, 0.8)
+    local ret, x, y = findPicEx(size[1], size[2], size[3], size[4], picName, sim)
     local suc = x ~= -1 and y ~= -1
     return suc, x, y
 end
 
 function GameUtil.ClickMazeDir(mazedir)
-    local suc, x, y = GameUtil.HasMazeDir(mazedir)
+    local suc, x, y = GameUtil.HasMazeDir(mazedir,0.6)
     if suc then
         Util.Click(x, y)
     else
-        log("没有获取到对应的迷宫方向脚本")
+        log("没有获取到对应的迷宫方向脚本"..mazedir)
     end
+
+    return suc
 end
 
 local DecorTable = {"602|629|FFFFFF,614|629|FFFFFF,628|629|FFFFFF,595|669|C6C6C6,619|669|C6C6C6", 0.9}

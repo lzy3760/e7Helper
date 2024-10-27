@@ -64,4 +64,8 @@ function Task:HasOperation()
     return self.operation
 end
 
+function Task:ResetOperation()
+    self.operation = false
+end
+
 return Task

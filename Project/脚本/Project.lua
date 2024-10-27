@@ -88,6 +88,9 @@ self.Test = function()
     --     log("≤È’“ ß∞‹")
     -- end
 
+    -- local MulClick = require("Step.MulClickStep")
+    -- local points = {{650, 393}, {744, 478}}
+    -- MulClick:Execute(points, 1)
 end
 
 self.Init()

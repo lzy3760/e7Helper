@@ -11,6 +11,7 @@ function Step:Execute(points, internal)
 
     for _, point in pairs(self.points) do
         Util.Click(point[1], point[2])
+        --log("MulClickStep µã»÷" .. tostring(self.step))
         self.step = self.step + 1
         Util.WaitTime(self.internal)
     end

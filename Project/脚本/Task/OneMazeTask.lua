@@ -134,8 +134,14 @@ local OneMazeTask = class("OneMazeTask", BaseTask)
 local BattleAutoStep = require("Step.BattleAutoStep")
 local MulClickStep = require("Step.MulClickStep")
 
+function OneMazeTask:initialize()
+    BaseTask.initialize(self, "一票木龙")
+end
+
 function OneMazeTask:Enter()
-    self.step = 1
+    --self.step = 1
+    self.step = 65
+    self.curStep =3
     self.curConsumeCount = 0
     self.consumeCount = 35
     self.state = MazeDir.N
@@ -146,23 +152,25 @@ function OneMazeTask:Update()
 end
 
 function OneMazeTask:Step1()
+    if self.curConsumeCount >= self.consumeCount then
+        self:AddStep()
+        return
+    end
+
+    Util.WaitTime(1)
     if self.state == MazeDir.N then
-        Util.WaitTime(1)
         local suc = GameUtil.ClickMazeDir(MazeDir.N)
         if suc then
             self.state = MazeDir.S
+            log("点击N成功")
         end
     elseif self.state == MazeDir.S then
-        Util.WaitTime(1)
         local suc = GameUtil.ClickMazeDir(MazeDir.S)
         if suc then
             self.state = MazeDir.N
             self.curConsumeCount = self.curConsumeCount + 1
+            log("点击S成功")
         end
-    end
-
-    if self.curConsumeCount >= self.consumeCount then
-        self:AddStep()
     end
 end
 
@@ -170,21 +178,27 @@ function OneMazeTask:Step2()
     if BattleAutoStep:Execute() then
         self:AddStep()
     end
+    --self:AddStep()
 end
 
 function OneMazeTask:Step3()
     if not GameUtil.IsInMazeSelect() then
         if self:CheckMazeStone() then
-            Util.Click()
+            Util.Click(610,477)
+            log("点击石头")
         end
         return
     end
-
+    
+    log("当前迷宫步数:" .. tostring(self.step))
     local stepCfg = Configs[self.step]
     local suc = false
     if #stepCfg == 1 then
+        Util.WaitTime(1)
         suc = self:NormalClick(stepCfg)
     elseif #stepCfg == 2 then
+        Util.WaitTime(1)
+        log("时空闸门判断")
         suc = self:ClickProtal(stepCfg)
     elseif #stepCfg == 3 then
         suc = self:JumpArea(stepCfg)
@@ -204,11 +218,35 @@ function OneMazeTask:NormalClick(cfg)
     return suc
 end
 
+--local points = {{650, 390}, {650, 390}, {744, 478}}
+local PortalColor = {"549|474|FFFFFF,624|475|2E2017,655|477|142644,757|474|FFFFFF",0.9}
+local ProtalState = 
+{
+    Enter = 1,
+    Confirm = 2,
+}
+
 function OneMazeTask:ClickProtal(cfg)
-    local points = { { 647, 391 }, { 744, 478 } }
-    MulClickStep:Execute(points, 0.8)
-    return true
+    -- 迷宫选择界面不匹配
+    if not Util.CompareColorByTable(PortalColor) then
+        log("进入闸门地带")
+        if not self:HasOperation() then
+            log("没有操作，点击闸门入口")
+            Util.Click(650, 390)
+        else
+            log("点击确定按钮了，重置操作，返回TRUE")
+            self:ResetOperation()
+            return true
+        end
+    else
+        log("点击确定按钮")
+        Util.Click(744, 478)
+        self:MarkOperation()
+    end
+
+    return false
 end
+
 
 function OneMazeTask:JumpArea(cfg)
     local points = { {}, {} }
@@ -217,8 +255,10 @@ function OneMazeTask:JumpArea(cfg)
     MulClickStep:Execute(points, 0.5)
 end
 
+local StoneTable = {554,251,668,346,"FFE652","12|2|FFE652|18|1|FFE551|18|7|FFE551|12|-30|FFFFFF|5|-23|FFFFFF|8|-36|FFFFFF",0,0.9}
 function OneMazeTask:CheckMazeStone()
-    return false
+    local suc,x,y = Util.FindMulColorByTable(StoneTable)
+    return suc
 end
 
 return OneMazeTask
