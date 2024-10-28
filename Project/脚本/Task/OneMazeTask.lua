@@ -107,7 +107,7 @@ local Configs =
     { MazeDir.W },
     { MazeDir.E },
     --{ MazeDir.E },--94
-    {MazeDir.None,Type.JumpArea,{{114,67},{739,525},{743,450}}},
+    {MazeDir.None,Type.JumpArea,{{114,67},{896,361},{743,450}}},
     { MazeDir.S },
     { MazeDir.N },
     { MazeDir.N },
@@ -125,7 +125,7 @@ local Configs =
     { MazeDir.W },
     { MazeDir.S },                 --Step 110
     { MazeDir.W },
-    { MazeDir.None, Type.Portal }, --Return
+    --{ MazeDir.None, Type.Portal }, --Return
 }
 
 local BaseTask = require("Task.BaseTask")
@@ -140,12 +140,12 @@ function OneMazeTask:initialize()
 end
 
 function OneMazeTask:Enter()
-    self.step = 1
+    --self.step = 1
     --当前迷宫步骤步数
-    -- self.step = 93
-    --self.curStep =2
+    self.step = 94
+    self.curStep =3
     self.curConsumeCount = 0
-    self.consumeCount = 2
+    self.consumeCount = 45
     self.state = MazeDir.N
 end
 
@@ -159,7 +159,7 @@ function OneMazeTask:Step1()
         return
     end
 
-    Util.WaitTime(1)
+    Util.WaitTime(0.3)
     if self.state == MazeDir.N then
         local suc = GameUtil.ClickMazeDir(MazeDir.N)
         if suc then
@@ -193,7 +193,7 @@ function OneMazeTask:Step3()
     local stepCfg = Configs[self.step]
     local suc = false
     if #stepCfg == 1 and inMaze then
-        Util.WaitTime(1)
+        Util.WaitTime(0.3)
         suc = self:NormalClick(stepCfg)
     elseif #stepCfg == 2 then
         Util.WaitTime(1)
@@ -252,7 +252,7 @@ function OneMazeTask:JumpArea(cfg)
 
     log("在迷宫")
     local points = cfg[3]
-    MulClickStep:Execute(points, 1)
+    MulClickStep:Execute(points, 2)
     return true
 end
 

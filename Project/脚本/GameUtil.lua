@@ -90,7 +90,7 @@ end
 function GameUtil.HasMazeDir(mazeDir, sim)
     local size
     local picName
-    local sim = sim or 0.8
+    local sim = sim or 0.9
     if mazeDir == MazeDir.N then
         size = {13, 133, 252, 334}
         picName = "N.png"
@@ -111,7 +111,7 @@ function GameUtil.HasMazeDir(mazeDir, sim)
 end
 
 function GameUtil.ClickMazeDir(mazedir)
-    local suc, x, y = GameUtil.HasMazeDir(mazedir,0.6)
+    local suc, x, y = GameUtil.HasMazeDir(mazedir,0.9)
     if suc then
         Util.Click(x, y)
     else
