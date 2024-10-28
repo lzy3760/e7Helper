@@ -106,7 +106,8 @@ local Configs =
     { MazeDir.S },
     { MazeDir.W },
     { MazeDir.E },
-    { MazeDir.E },
+    --{ MazeDir.E },--94
+    {MazeDir.None,Type.JumpArea,{{114,67},{739,525},{743,450}}},
     { MazeDir.S },
     { MazeDir.N },
     { MazeDir.N },
@@ -139,11 +140,12 @@ function OneMazeTask:initialize()
 end
 
 function OneMazeTask:Enter()
-    --self.step = 1
-    self.step = 65
-    self.curStep =3
+    self.step = 1
+    --当前迷宫步骤步数
+    -- self.step = 93
+    --self.curStep =2
     self.curConsumeCount = 0
-    self.consumeCount = 35
+    self.consumeCount = 2
     self.state = MazeDir.N
 end
 
@@ -162,14 +164,14 @@ function OneMazeTask:Step1()
         local suc = GameUtil.ClickMazeDir(MazeDir.N)
         if suc then
             self.state = MazeDir.S
-            log("点击N成功")
+            --log("点击N成功")
         end
     elseif self.state == MazeDir.S then
         local suc = GameUtil.ClickMazeDir(MazeDir.S)
         if suc then
             self.state = MazeDir.N
             self.curConsumeCount = self.curConsumeCount + 1
-            log("点击S成功")
+            --log("点击S成功")
         end
     end
 end
@@ -178,22 +180,19 @@ function OneMazeTask:Step2()
     if BattleAutoStep:Execute() then
         self:AddStep()
     end
-    --self:AddStep()
 end
 
 function OneMazeTask:Step3()
-    if not GameUtil.IsInMazeSelect() then
-        if self:CheckMazeStone() then
-            Util.Click(610,477)
-            log("点击石头")
-        end
-        return
+    if self:CheckMazeStone() then
+        Util.Click(610,477)
+        log("点击石头")
+        return 
     end
-    
-    log("当前迷宫步数:" .. tostring(self.step))
+
+    local inMaze = GameUtil.IsInMazeSelect()
     local stepCfg = Configs[self.step]
     local suc = false
-    if #stepCfg == 1 then
+    if #stepCfg == 1 and inMaze then
         Util.WaitTime(1)
         suc = self:NormalClick(stepCfg)
     elseif #stepCfg == 2 then
@@ -201,11 +200,13 @@ function OneMazeTask:Step3()
         log("时空闸门判断")
         suc = self:ClickProtal(stepCfg)
     elseif #stepCfg == 3 then
+        Util.WaitTime(1)
         suc = self:JumpArea(stepCfg)
     end
 
     if suc then
         self.step = self.step + 1
+        log("当前迷宫步数:" .. tostring(self.step))
         if self.step > #Configs then
             self:Completed()
         end
@@ -219,40 +220,40 @@ function OneMazeTask:NormalClick(cfg)
 end
 
 --local points = {{650, 390}, {650, 390}, {744, 478}}
-local PortalColor = {"549|474|FFFFFF,624|475|2E2017,655|477|142644,757|474|FFFFFF",0.9}
-local ProtalState = 
-{
-    Enter = 1,
-    Confirm = 2,
-}
+--local PortalColor = {409,423,879,534,"2E2119","169|-3|2E2017|207|-1|142644|383|0|142643",0,0.7}
+local PortalColor = {"549|474|FFFFFF,624|475|2E2017,655|477|142644,757|474|FFFFFF", 0.9}
 
 function OneMazeTask:ClickProtal(cfg)
-    -- 迷宫选择界面不匹配
+    local inMaze = GameUtil.IsInMazeSelect()
     if not Util.CompareColorByTable(PortalColor) then
-        log("进入闸门地带")
-        if not self:HasOperation() then
-            log("没有操作，点击闸门入口")
-            Util.Click(650, 390)
-        else
-            log("点击确定按钮了，重置操作，返回TRUE")
-            self:ResetOperation()
-            return true
+        if inMaze then
+            if not self.portalState then
+                log("没有操作，点击闸门入口")
+                Util.Click(650, 390)
+            else
+                self.portalState = nil
+                return true
+            end
         end
     else
         log("点击确定按钮")
         Util.Click(744, 478)
-        self:MarkOperation()
+        self.portalState = true
     end
 
     return false
 end
 
-
 function OneMazeTask:JumpArea(cfg)
-    local points = { {}, {} }
-    local jumpPos = cfg[3]
-    table.insert(points, 2, jumpPos)
-    MulClickStep:Execute(points, 0.5)
+    local inMaze = GameUtil.IsInMazeSelect()
+    if not inMaze then
+        return false
+    end
+
+    log("在迷宫")
+    local points = cfg[3]
+    MulClickStep:Execute(points, 1)
+    return true
 end
 
 local StoneTable = {554,251,668,346,"FFE652","12|2|FFE652|18|1|FFE551|18|7|FFE551|12|-30|FFFFFF|5|-23|FFFFFF|8|-36|FFFFFF",0,0.9}

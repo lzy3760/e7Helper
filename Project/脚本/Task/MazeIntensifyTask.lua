@@ -20,7 +20,7 @@ local MazeTask = class("MazeIntensifyTask", BaseTask)
 
 local Steps = {
     [2] = {
-        mulColor = {727, 122, 960, 716, "958F1A", "125|-20|CBAE9F", 0, 0.9},
+        mulColor = {700,45,961,710,"844527","13|-20|C35B1A|20|-8|BD6F2F|42|-5|C35B1A|75|-13|BD6F2F|-27|38|707014|26|39|797710",0,0.9},
         swipeFrom = {850, 705},
         swipeTo = {843, 135}
     },
@@ -65,13 +65,11 @@ function MazeTask:Step2()
         return
     end
 
-    if Util.CompareColorByTable(config.inPanel) then
+    if not self:HasOperation() then
         Util.Click(x, y)
         self:MarkOperation()
     else
-        if self:HasOperation() then
-            self:AddStep()
-        end
+        self:AddStep()
     end
 end
 
@@ -133,7 +131,7 @@ function MazeTask:Step8()
     end
 end
 
---TODO ÕÀ≥ˆ…ÃµÍ≈–∂œ
+-- TODO ÕÀ≥ˆ…ÃµÍ≈–∂œ
 function MazeTask:Step9()
     Util.Click(72, 31)
     Util.WaitTime(1)

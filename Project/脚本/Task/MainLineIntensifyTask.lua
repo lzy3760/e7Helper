@@ -87,13 +87,20 @@ end
 -- 进入选择辅助队友
 function Task:Step4()
     local config = Points[4]
+    -- if Util.CompareColor(config.inPanel) then
+    --     Util.Click(config.clickPos[1], config.clickPos[2])
+    --     self:MarkOperation()
+    -- else
+    --     if self:HasOperation() then
+    --         self:AddStep()
+    --     end
+    -- end
+
+    --只点一次，点太快会直接跳过Ready界面，很神奇
     if Util.CompareColor(config.inPanel) then
+        Util.WaitTime(1)
         Util.Click(config.clickPos[1], config.clickPos[2])
-        self:MarkOperation()
-    else
-        if self:HasOperation() then
-            self:AddStep()
-        end
+        self:AddStep()
     end
 end
 
