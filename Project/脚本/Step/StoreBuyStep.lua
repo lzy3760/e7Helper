@@ -18,15 +18,28 @@ local State = {
 
 -- 强化石
 local IntensifyStone = {
-    [1] = {
-        picName = "Stone1.png"
-    },
-    [2] = {
-        picName = "Stone2.png"
-    },
-    [3] = {
-        picName = "Stone3.png"
-    }
+    [1] = {686, 90, 756, 119, "A67048",
+           "18|4|9B6945|23|2|A9724A|39|1|A9724A|48|1|A16D47|48|14|A9724A|9|174|050405|40|299|010000", 0, 0.9},
+    [2] = {685, 236, 758, 264, "A67048",
+           "18|4|9B6945|23|2|A9724A|39|1|A9724A|48|1|A16D47|48|14|A9724A|9|174|050405|40|299|010000", 0, 0.9},
+    [3] = {687, 379, 762, 409, "A67048",
+           "18|4|9B6945|23|2|A9724A|39|1|A9724A|48|1|A16D47|48|14|A9724A|9|174|050405|40|299|010000", 0, 0.9},
+    [4] = {688, 527, 753, 552, "A67048",
+           "18|4|9B6945|23|2|A9724A|39|1|A9724A|48|1|A16D47|48|14|A9724A|9|174|050405|40|299|010000", 0, 0.9},
+    [5] = {688, 449, 772, 484, "A67048",
+           "18|4|9B6945|23|2|A9724A|39|1|A9724A|48|1|A16D47|48|14|A9724A|9|174|050405|40|299|010000", 0, 0.9},
+    [6] = {685, 596, 771, 627, "A67048",
+           "18|4|9B6945|23|2|A9724A|39|1|A9724A|48|1|A16D47|48|14|A9724A|9|174|050405|40|299|010000", 0, 0.9}
+
+    -- [1] = {
+    --     picName = "Stone1.png"
+    -- },
+    -- [2] = {
+    --     picName = "Stone2.png"
+    -- },
+    -- [3] = {
+    --     picName = "Stone3.png"
+    -- }
 }
 
 -- 货币
@@ -166,10 +179,11 @@ function StoreBuyStep:CanBuyStone(index)
     local config = Goods[index]
     local size = config.size
     for _, stone in pairs(IntensifyStone) do
-        local suc, x, y = Util.findPic(size[1], size[2], size[3], size[4], stone.picName, 0.9)
+        local suc, x, y = Util.FindMulColorByTable(stone)
         if suc then
-            print("购买物品是" .. stone.picName)
-            print(tostring(x) .. "---" .. tostring(y))
+            log("是强化石")
+            --print("购买物品是")
+            --print(tostring(x) .. "---" .. tostring(y))
             return true
         end
     end

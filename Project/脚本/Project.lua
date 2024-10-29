@@ -1,4 +1,4 @@
-_G.class = require("middleclass")
+                     _G.class = require("middleclass")
 require("EnumConst")
 require("Util")
 require("GameUtil")

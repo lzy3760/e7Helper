@@ -106,8 +106,8 @@ local Configs =
     { MazeDir.S },
     { MazeDir.W },
     { MazeDir.E },
-    --{ MazeDir.E },--94
     {MazeDir.None,Type.JumpArea,{{114,67},{896,361},{743,450}}},
+    --{MazeDir.None,Type.JumpArea,{{114,67},{739,525},{743,450}}},
     { MazeDir.S },
     { MazeDir.N },
     { MazeDir.N },
@@ -140,10 +140,10 @@ function OneMazeTask:initialize()
 end
 
 function OneMazeTask:Enter()
-    --self.step = 1
+    self.step = 1
     --当前迷宫步骤步数
-    self.step = 94
-    self.curStep =3
+    -- self.step = 94
+    -- self.curStep =3
     self.curConsumeCount = 0
     self.consumeCount = 45
     self.state = MazeDir.N
