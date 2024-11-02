@@ -114,9 +114,10 @@ function StoreBuyStep:OnCheck()
     local canBuy = self:CanBuyInIndex(self.buyIndex)
     if canBuy then
         self.state = State.ClickBuy
+    else
+        self.buyIndex = self.buyIndex + 1
     end
     
-    self.buyIndex = self.buyIndex + 1
     return false
 end
 
