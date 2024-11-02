@@ -1,9 +1,9 @@
 local GameUtil = {}
 
-local HomeColor = "55|632|FFFFFF,145|640|EBEBEB,232|650|C3C3C3,334|635|FFFFFF,421|634|FFFFFF"
+local HomeColor = {"862|618|FFFFFF,952|625|FFFFFF,1091|629|FFFFFF,1118|622|FFFFFF,1211|606|FFFFFF",0.9}
 -- 是否处于主界面
 function GameUtil.IsInHome()
-    return Util.CompareColor(HomeColor)
+    return Util.CompareColorByTable(HomeColor)
 end
 
 local QuickBattle = {1202, 618, 1269, 695, "E9E6ED", "36|-1|E8E6ED|-2|43|E8E6ED|35|43|E9E6ED", 0, 0.9}

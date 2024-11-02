@@ -9,6 +9,7 @@ require("UI.UIMgr")
 
 setScreenScale(1, 1280, 720, 0)
 
+---@class Project
 local Project = {}
 local self = Project
 self.mgrs = {_G.TaskMgr, -- _G.TimeMgr,
@@ -93,19 +94,24 @@ self.Test = function()
     -- MulClick:Execute(points, 1)
 end
 
-self.Init()
-self.Enter()
-
 -- 每次轮询的时间间隔，因为sleep的存在，只能说是轮询了
 local internal = 0.2
 
-while true do
-    self.Update()
-    Util.WaitTime(internal)
+function Project:Start()
+    self.Init()
+    self.Enter()
 
-    self.isTest = true
-    if not self.isTest then
-        self.Test()
+    --TODO 轮询
+    while true do
+        self.Update()
+        Util.WaitTime(internal)
+
         self.isTest = true
+        if not self.isTest then
+            self.Test()
+            self.isTest = true
+        end
     end
 end
+
+return Project

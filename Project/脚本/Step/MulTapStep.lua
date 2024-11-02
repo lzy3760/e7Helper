@@ -29,6 +29,7 @@ function Step:Execute()
         self:MakeOperation()
     else
         if self:HasOperation() then
+            log("µ±Ç°²Ù×Ý²½Öè"..tostring(self.step))
             self:ResetOperation()
             self.step = self.step + 1
             Util.WaitTime(self.internal)

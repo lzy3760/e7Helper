@@ -26,7 +26,7 @@ local Points = {
         clickPos = {733, 578}
     },
     [4] = {
-        inPanel = "1009|665|143117,1147|664|163318",
+        inPanel = {683,151,905,719,"5C9D37","23|0|4E8C36|15|9|FFFFFF|14|11|FFFFFF|6|25|4C8E1F|13|25|40841D",0,0.98},
         clickPos = {1080, 666}
     }
 }
@@ -87,7 +87,7 @@ end
 -- 进入选择辅助队友
 function Task:Step4()
     local config = Points[4]
-    -- if Util.CompareColor(config.inPanel) then
+    -- if Util.FindMulColorByTable(config.inPanel) then
     --     Util.Click(config.clickPos[1], config.clickPos[2])
     --     self:MarkOperation()
     -- else
@@ -97,7 +97,7 @@ function Task:Step4()
     -- end
 
     --只点一次，点太快会直接跳过Ready界面，很神奇
-    if Util.CompareColor(config.inPanel) then
+    if Util.FindMulColorByTable(config.inPanel) then
         Util.WaitTime(1)
         Util.Click(config.clickPos[1], config.clickPos[2])
         self:AddStep()

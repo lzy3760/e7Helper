@@ -48,6 +48,7 @@ end
 
 function Task:Step1()
     if GameUtil.IsInHome() then
+        log("在房间")
         local state = GameUtil.GetHomeState()
         if state == RoomState.NormalState then
             Util.Click(567, 186)
@@ -56,6 +57,7 @@ function Task:Step1()
         end
         self:MarkOperation()
     else
+        log("不在房间")
         if self:HasOperation() then
             StoreBuyStep:ResetBuyIndex()
             self:ChangeStep(4)
