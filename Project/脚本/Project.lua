@@ -2,6 +2,7 @@ _G.class = require("middleclass")
 require("EnumConst")
 require("Util")
 require("GameUtil")
+require("OCRUtil")
 require("Time.TimeMgr")
 require("Task.TaskMgr")
 require("Setting.SettingMgr")
@@ -39,7 +40,7 @@ self.Release = function()
     end
 end
 
-self.Update = function()
+self.UpdateMgr = function()
     for _, mgr in pairs(self.mgrs) do
         if mgr.Update then
             mgr:Update()
@@ -92,26 +93,20 @@ self.Test = function()
     -- local MulClick = require("Step.MulClickStep")
     -- local points = {{650, 393}, {744, 478}}
     -- MulClick:Execute(points, 1)
+    _G.OCRUtil.findText()
 end
 
 -- 每次轮询的时间间隔，因为sleep的存在，只能说是轮询了
 local internal = 0.2
 
-function Project:Start()
+function Project:GameStart()
     self.Init()
     self.Enter()
+end
 
-    --TODO 轮询
-    while true do
-        self.Update()
-        Util.WaitTime(internal)
-
-        self.isTest = true
-        if not self.isTest then
-            self.Test()
-            self.isTest = true
-        end
-    end
+function Project:GameUpdate()
+    Util.WaitTime(internal)
+    self.UpdateMgr()
 end
 
 return Project
